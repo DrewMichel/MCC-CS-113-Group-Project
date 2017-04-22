@@ -1,0 +1,10 @@
+Had to play with it to avoid creating multiple instances of the project..
+
+Do File > Open
+nav to wherever you cloned down the project
+Select ProjectPacMan
+Click Ok
+
+
+If you're using a different editor than add whatever extras it kicks out to the .gitignore
+https://git-scm.com/docs/gitignore
