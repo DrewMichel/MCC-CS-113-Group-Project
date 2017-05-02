@@ -34,7 +34,9 @@ public class GraphicsController extends JFrame
     
     private SystemManager manager;
     
-    private JPanel northPanel, eastPanel, centerPanel, southPanel, westPanel;
+    private JPanel northPanel, eastPanel, southPanel, westPanel;
+
+    private CenterPanel centerPanel;
     
     public GraphicsController()
     {
@@ -59,14 +61,112 @@ public class GraphicsController extends JFrame
         add(centerPanel, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
         add(westPanel, BorderLayout.WEST);
-        
+
+        //this.setFocusable(false);
+        //centerPanel.setFocusable(true);
+
+        //centerPanel.addKeyListener(manager.getPlayerController());
+        addKeyListener(manager.getPlayerController());
+
+        /*
+        ThreadDrawer td = new ThreadDrawer(this, centerPanel);
+
+        new Thread()
+        {
+            td.run();
+        }
+        */
+
+        ThreadPainter td = new ThreadPainter(this);
+
+        td.start();
+
         setVisible(true);
+    }
+
+    public SystemManager getManager()
+    {
+        return manager;
     }
 
     public void paint(Graphics g)
     {
         super.paint(g);
 
+        //centerPanel.paintComponent(g);
+
         //g.fillRect(0,0,DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
+
+    private class ThreadPainter extends Thread
+    {
+        private JFrame frame;
+
+        public ThreadPainter(JFrame frame)
+        {
+            this.frame = frame;
+        }
+
+        @Override
+        public void run()
+        {
+            while(!manager.isPaused())
+            {
+                try
+                {
+                    if(frame != null)
+                    {
+                        frame.revalidate();
+                        frame.repaint();
+
+                        this.sleep(10);
+                    }
+                }
+                catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+
+    /*
+    private class ThreadDrawer implements Runnable
+    {
+
+        CenterPanel cp;
+        JFrame frame;
+
+        public ThreadDrawer(JFrame frame, CenterPanel cp)
+        {
+            this.cp = cp;
+            this.frame = frame;
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                while(!manager.isPaused())
+                {
+                    if(cp != null && frame != null && frame.getGraphics() != null)
+                    {
+                        cp.paintComponent(frame.getGraphics());
+
+                    }
+
+                    Thread.sleep(5);
+                }
+
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    */
 }

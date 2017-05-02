@@ -17,10 +17,21 @@ public class Ghost extends Entity
     public Ghost()
     {
         super(new Position2D(), Color.CYAN, true, Shape.CIRCLE);
+
+        this.setDirection(Direction.SOUTH);
     }
 
     public Ghost(Color color)
     {
         super(new Position2D(), color, true, Shape.CIRCLE);
+
+        this.setDirection(Direction.SOUTH);
+    }
+
+    public Ghost(Position2D pos, Color color, boolean canMove, Shape shape)
+    {
+        super(pos, color, canMove, shape);
+
+        this.setDirection(Direction.SOUTH);
     }
 }

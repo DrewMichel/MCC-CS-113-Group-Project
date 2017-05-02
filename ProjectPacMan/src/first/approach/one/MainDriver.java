@@ -16,5 +16,7 @@ public class MainDriver
     public static void main(String[] args)
     {
         GraphicsController gc = new GraphicsController();
+
+        gc.getManager().initialize();
     }
 }

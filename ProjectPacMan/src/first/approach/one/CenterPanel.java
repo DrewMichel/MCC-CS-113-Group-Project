@@ -34,12 +34,17 @@ public class CenterPanel extends JPanel
 
         g.setColor(Color.BLACK);
 
-        g.fillRect(0,0,GraphicsController.DEFAULT_WIDTH, GraphicsController.DEFAULT_HEIGHT);
+        //g.fillRect(0,0,GraphicsController.DEFAULT_WIDTH, GraphicsController.DEFAULT_HEIGHT);
+
+        g.fillRect(0,0, this.getWidth(), this.getHeight());
 
         // calls paintEntity(g)
         for(Entity entity : entities)
         {
-            entity.paintEntity(g);
+            if(entity != null)
+            {
+                entity.paintEntity(g);
+            }
         }
     }
 }

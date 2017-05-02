@@ -22,6 +22,8 @@ import java.awt.Graphics;
  */
 public abstract class Entity
 {
+    public enum Direction {NORTH, EAST, SOUTH, WEST};
+
     // ENUM OR CONSTANT FOR SHAPE --- FILLARC, FILLRECT, etc...
     public enum Shape {RECTANGLE, CIRCLE;}
     
@@ -29,6 +31,7 @@ public abstract class Entity
     private Color color;
     private boolean canMove;
     private Shape shape;
+    private Direction dir;
     
     public Entity(Position2D position, Color color, boolean canMove, Shape shape)
     {
@@ -36,6 +39,7 @@ public abstract class Entity
     	this.color = color;
     	this.canMove = canMove;
     	this.shape = shape;
+    	dir = Direction.SOUTH;
     }
     
     public Position2D getPosition()
@@ -81,6 +85,60 @@ public abstract class Entity
     {
         return true;
     }
+
+    public boolean attemptMove(Position2D pos)
+    {
+        this.position = new Position2D(pos);
+        return true;
+    }
+
+    public boolean attemptMove(int x, int y)
+    {
+        this.position = new Position2D(x, y, this.position.getWidth(), this.position.getHeight());
+        return true;
+    }
+
+    public boolean incrementX()
+    {
+        this.position.setXPosition(this.position.getXPosition() + 1);
+        return true;
+    }
+
+    public boolean decrementX()
+    {
+        this.position.setXPosition(this.position.getXPosition() - 1);
+        return true;
+    }
+
+    public boolean incrementY()
+    {
+        this.position.setYPosition(this.position.getYPosition() + 1);
+        return true;
+    }
+
+    public boolean decrementY()
+    {
+        this.position.setYPosition(this.position.getYPosition() - 1);
+        return true;
+    }
+
+    public boolean offset(int x, int y)
+    {
+        this.position.setXPosition(this.position.getXPosition() + x);
+        this.position.setYPosition(this.position.getYPosition() + y);
+        return true;
+    }
+
+    public Direction getDirection()
+    {
+        return dir;
+    }
+
+    public boolean setDirection(Direction dir)
+    {
+        this.dir = dir;
+        return true;
+    }
     
     public boolean paintEntity(Graphics g)
     {
@@ -92,7 +150,6 @@ public abstract class Entity
         }
         else if(this.shape == Shape.CIRCLE)
         {
-            // TODO: CHECK ARC ANGLES
             g.fillArc(position.getXPosition(), position.getYPosition(), position.getWidth(), position.getHeight(), 180, 360);
         }
         
