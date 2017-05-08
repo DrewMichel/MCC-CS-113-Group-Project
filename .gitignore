@@ -10,6 +10,7 @@ Thumbs.db
 
 # intelliJ crap #
 .idea/
+out/
 
 # temp files #
 ~$*
