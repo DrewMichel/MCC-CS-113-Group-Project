@@ -40,20 +40,12 @@ public class Position2D
     
     public Position2D(Position2D pos)
     {
-        if(pos != null)
-        {
-            this.xPosition = pos.xPosition;
-            this.yPosition = pos.yPosition;
-            this.width = pos.width;
-            this.height = pos.height;
-        }
-        else
-        {
-            xPosition = 0;
-            yPosition = 0;
-            width = 0;
-            height = 0;
-        }
+        // NDR 2017.05.07 removed the null check from this function. There's no reason to gracefully handle an
+        // an error here. If there is a mistake and we try and initialize with a null object we WANT it to throw.
+        this.xPosition = pos.xPosition;
+        this.yPosition = pos.yPosition;
+        this.width = pos.width;
+        this.height = pos.height;
     }
     
     // GETTERS
