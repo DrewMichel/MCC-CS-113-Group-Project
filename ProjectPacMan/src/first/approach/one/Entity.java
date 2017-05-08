@@ -22,10 +22,10 @@ import java.awt.Graphics;
  */
 public abstract class Entity
 {
-    public enum Direction {NORTH, EAST, SOUTH, WEST};
+    public enum Direction {NORTH, EAST, SOUTH, WEST}
 
     // ENUM OR CONSTANT FOR SHAPE --- FILLARC, FILLRECT, etc...
-    public enum Shape {RECTANGLE, CIRCLE;}
+    public enum Shape {RECTANGLE, CIRCLE}
     
     private Position2D position;
     private Color color;

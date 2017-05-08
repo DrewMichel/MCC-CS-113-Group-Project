@@ -68,27 +68,33 @@ public class SystemManager
 
     public void initialize()
     {
-        while(!paused)
-        {
-            for(Entity entity : entities)
-            {
-                if(entity != null)
-                {
-                    entity.attemptMove();
+        // NDR 2017.05.07 I changed 'while(!paused)...' to 'while(true) { if !(paused)...' to fix the bug w/ not being
+        // able to return from a paused state. Which kind of worked.. the application starts again and the Pacman will
+        // move but for some reason the frame doesn't start redrawing. I have no idea why.
+        while(true) {
+            if (!paused) {
+                for (Entity entity : entities) {
+                    if (entity != null && entity.canMove()) {
+                        entity.attemptMove();
+                    }
                 }
-            }
-            try
-            {
-                Thread.sleep(10);
-            }
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
+                // Hit detection
+                // I'm make the assumption here that we're okay with
+                if (detectCollision()) {
+                    System.out.println("DEBUG: Collision detected");
+                };
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
 
+            } else {
+                System.out.println("Currently Paused..");
+                try { Thread.sleep(100); } catch (Exception e) {e.printStackTrace();}
+            }
         }
-
 
     }
 
@@ -113,6 +119,33 @@ public class SystemManager
         return entities;
     }
 
+    //todo expand this from boolean to enum to capture what kind of collision occurs (e.g. Wall vs Coin vs Ghost)
+    private boolean detectCollision() {
+        //get the current bounding box around the player object
+        Position2D playerPosition = player.getPosition();
+        /*
+        int xStart = playerPosition.getXPosition();
+        int xEnd = playerPosition.getXPositionEnd();
+        int yStart = playerPosition.getYPosition();
+        int yEnd = playerPosition.getyPositionEnd();
+        */
+
+        //iterate through our entities to check for Pacmans hitbox overlapping w/ another entity's location
+        for (Entity entity : entities) {
+            if (!player.equals(entity)) {
+                Position2D entityPosition = entity.getPosition();
+                if (playerPosition.overlaps(entityPosition)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+        // Potential pitfall note: we're probably going to need something to 'kick' the player from the wall in the event
+        // of a collision or to perform this check before the actual collision.
+        // Otherwise they could end up stuck inside a wall unable to move due to endless collisions.
+    }
 
     private class PlayerController implements KeyListener
     {

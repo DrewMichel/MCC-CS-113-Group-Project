@@ -66,6 +66,14 @@ public class Position2D
     {
         return yPosition;
     }
+
+    public int getXPositionEnd() {
+        return xPosition + width;
+    }
+
+    public int getYPositionEnd() {
+        return yPosition + height;
+    }
     
     public int getWidth()
     {
@@ -119,7 +127,10 @@ public class Position2D
         
         Position2D temp = (Position2D) other;
         
-        if(this.xPosition == temp.xPosition && this.yPosition == temp.yPosition && this.width == temp.width && this.height == temp.height)
+        if(this.xPosition == temp.xPosition
+                && this.yPosition == temp.yPosition
+                && this.width == temp.width
+                && this.height == temp.height)
         {
             return true;
         }
@@ -127,5 +138,26 @@ public class Position2D
         {
             return false;
         }
+    }
+
+    public boolean overlaps(Position2D otherPos) {
+        boolean xStartOverlap = (getXPosition() >= otherPos.getXPosition() && getXPosition() <= otherPos.getXPositionEnd());
+        boolean xMiddleOverlap = (getXPosition() <= otherPos.getXPosition() && getXPositionEnd() >= otherPos.getXPositionEnd());
+        boolean xEndOverlap = (getXPositionEnd() >= otherPos.getXPosition() && getXPositionEnd() <= otherPos.getXPositionEnd());
+        boolean yStartOverlap = (getYPosition() >= otherPos.getYPosition() && getYPosition() <= otherPos.getYPositionEnd());
+        boolean yMiddleOverlap = (getYPosition() <= otherPos.getYPosition() && getYPositionEnd() >= otherPos.getYPositionEnd());
+        boolean yEndOverlap = (getYPositionEnd() >= otherPos.getYPosition() && getYPositionEnd() <= otherPos.getYPositionEnd());
+        if (xStartOverlap && yStartOverlap
+                || xStartOverlap && yMiddleOverlap
+                || xStartOverlap && yEndOverlap
+                || xMiddleOverlap && yStartOverlap
+                || xMiddleOverlap && yMiddleOverlap
+                || xMiddleOverlap && yEndOverlap
+                || xEndOverlap && yStartOverlap
+                || xEndOverlap && yMiddleOverlap
+                || xEndOverlap && yEndOverlap) {
+            return true;
+        }
+        return false;
     }
 }
