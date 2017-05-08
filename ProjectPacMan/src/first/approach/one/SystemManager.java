@@ -79,20 +79,23 @@ public class SystemManager
                     }
                 }
                 // Hit detection
-                // I'm make the assumption here that we're okay with
                 if (detectCollision()) {
                     System.out.println("DEBUG: Collision detected");
-                };
+                }
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     System.out.println(e.getMessage());
                 }
-
             } else {
                 System.out.println("Currently Paused..");
-                try { Thread.sleep(100); } catch (Exception e) {e.printStackTrace();}
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
             }
         }
 
@@ -121,14 +124,7 @@ public class SystemManager
 
     //todo expand this from boolean to enum to capture what kind of collision occurs (e.g. Wall vs Coin vs Ghost)
     private boolean detectCollision() {
-        //get the current bounding box around the player object
         Position2D playerPosition = player.getPosition();
-        /*
-        int xStart = playerPosition.getXPosition();
-        int xEnd = playerPosition.getXPositionEnd();
-        int yStart = playerPosition.getYPosition();
-        int yEnd = playerPosition.getyPositionEnd();
-        */
 
         //iterate through our entities to check for Pacmans hitbox overlapping w/ another entity's location
         for (Entity entity : entities) {
@@ -139,7 +135,6 @@ public class SystemManager
                 }
             }
         }
-
         return false;
 
         // Potential pitfall note: we're probably going to need something to 'kick' the player from the wall in the event
