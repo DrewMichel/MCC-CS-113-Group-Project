@@ -47,13 +47,13 @@ public class SystemManager
     {
         entities = new ArrayList<>();
         
-        entities.add(new Wall(new Position2D(20,20,500,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(20,20,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
         
-        entities.add(new Wall(new Position2D(20,450,500,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(20,650,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
         
-        entities.add(new Wall(new Position2D(500,20,20,450), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(1150,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
 
-        entities.add(new Wall(new Position2D(20,20,20,450), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(20,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
 
         entities.add(new Ghost(new Position2D(200, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE));
 
@@ -80,14 +80,17 @@ public class SystemManager
                     }
                 }
 
-                // Hit detection
-                Object detectCollision = detectCollision();
-                if (detectCollision instanceof Wall) {
-                    System.out.println("DEBUG: Wall Collision detected");
-                    player.setPosition(playerPosition);
-                } else if (detectCollision instanceof Ghost) {
-                    System.out.println("DEBUG: GAME OVER - Ghost Collision detected");
-                    return;
+                for (Entity entity : entities) {
+                    // Hit detection
+                    // TODO: CHANGE TO ARRAYLIST, ITERATE OVER ARRAYLIST AND DO COLLISION
+                    Object detectCollision = detectCollision(entity);
+                    if (detectCollision instanceof Wall) {
+                        System.out.println("DEBUG: Wall Collision detected");
+                        player.setPosition(playerPosition);
+                    } else if (detectCollision instanceof Ghost) {
+                        System.out.println("DEBUG: GAME OVER - Ghost Collision detected");
+                        return;
+                    }
                 }
 
                 threadSleep(10);
@@ -123,19 +126,22 @@ public class SystemManager
     /** Collision detection
      * @return the first entity it registers having collided with. Returns null when there are no collisions.
      */
-    private Entity detectCollision() {
-        Position2D playerPosition = player.getPosition();
+    private ArrayList<Entity> detectCollision(Entity ent) {
+        Position2D entPosition = ent.getPosition();
+
+        ArrayList<Entity> aList = new ArrayList<>();
 
         //iterate through our entities to check for Pacmans hitbox overlapping w/ another entity's location
         for (Entity entity : entities) {
-            if (!player.equals(entity)) {
+            //if (!ent.equals(entity))
+            if(ent != entity) {
                 Position2D entityPosition = entity.getPosition();
-                if (playerPosition.overlaps(entityPosition)) {
-                    return entity;
+                if (entPosition.overlaps(entityPosition)) {
+                    aList.add(entity);
                 }
             }
         }
-        return null;
+        return aList;
     }
 
     // Just here to improve code readability by grabbing the try-catch

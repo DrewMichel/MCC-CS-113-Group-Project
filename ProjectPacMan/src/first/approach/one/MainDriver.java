@@ -3,7 +3,7 @@ package first.approach.one;
 /**
  * TODO: NEEDS STYLESHEET(?), INSERT NAMES, JAVADOCS
  *
- * Created by Andrew Michel,
+ * Created by Andrew Michel, Nathan Rooke, Jack Wang, Zach Pownell, Julian Connor
  *
  * on 4/24/2017
  *

@@ -17,7 +17,7 @@ import java.awt.Graphics;
  *
  * Contains a SystemManager object which controls game logic
  *
- * Uses a BorderLayout to seperate portions of the window into panels
+ * Uses a BorderLayout to separate portions of the window into panels
  *           NORTH
  *      WEST CENTER EAST
  *           SOUTH
@@ -29,8 +29,8 @@ import java.awt.Graphics;
  */
 public class GraphicsController extends JFrame
 {
-    public static final int DEFAULT_WIDTH = 600;
-    public static final int DEFAULT_HEIGHT = 600;
+    public static final int DEFAULT_WIDTH = 1250;
+    public static final int DEFAULT_HEIGHT = 750;
     
     private SystemManager manager;
     

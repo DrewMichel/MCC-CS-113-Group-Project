@@ -82,7 +82,7 @@ public class Pacman extends Entity
 
         g.setColor(Color.BLACK);
 
-        g.drawArc(this.getPosition().getXPosition() + (int) (this.getPosition().getWidth() * .30), this.getPosition().getYPosition(), this.getPosition().getWidth(), this.getPosition().getHeight(), 180, 50);
+        g.fillArc(this.getPosition().getXPosition() + (int) (this.getPosition().getWidth() * .30), this.getPosition().getYPosition() + 12,(int) (this.getPosition().getWidth() * .70),(int) (this.getPosition().getHeight() * .70), -190, 180);
 
         return true;
     }
