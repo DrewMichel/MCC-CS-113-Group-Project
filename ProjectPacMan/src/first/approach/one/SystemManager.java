@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class SystemManager
 {
+    public static final boolean VERBOSE = true; //for showing error logs
+
     private ArrayList<Entity> entities;
 
     private PlayerController pc;
@@ -42,7 +44,7 @@ public class SystemManager
     private Ghost green;
 
     public Pacman player;
-    
+
     public SystemManager()
     {
         entities = new ArrayList<>();
@@ -73,30 +75,58 @@ public class SystemManager
         // move but for some reason the frame doesn't start redrawing. I have no idea why.
         while(true) {
             if (!paused) {
-                Position2D playerPosition = new Position2D(player.getPosition());
+                //Position2D playerPosition = new Position2D(player.getPosition());
                 for (Entity entity : entities) {
-                    if (entity != null && entity.canMove()) {
+                    if (entity.canMove()) {
                         entity.attemptMove();
                     }
                 }
 
-                for (Entity entity : entities) {
-                    // Hit detection
-                    // TODO: CHANGE TO ARRAYLIST, ITERATE OVER ARRAYLIST AND DO COLLISION
-                    Object detectCollision = detectCollision(entity);
-                    if (detectCollision instanceof Wall) {
-                        System.out.println("DEBUG: Wall Collision detected");
-                        player.setPosition(playerPosition);
-                    } else if (detectCollision instanceof Ghost) {
-                        System.out.println("DEBUG: GAME OVER - Ghost Collision detected");
-                        return;
+
+                ArrayList<Collision> collisions = detectCollisions();
+                for (Collision collision : collisions) {
+                    if (VERBOSE) System.out.println("Collision from " + collision.getSourceEntityType()
+                            + " onto " + collision.getCollidedEntityType());
+                    switch (collision.getSourceEntityType()) {
+                        case "Pacman":
+                            switch (collision.getCollidedEntityType()) {
+                                case "Wall":
+                                    player.setPosition(collision.getPreviousPosition());
+                                    break;
+                                case "Ghost":
+                                    System.out.println("GAME OVER");
+                                    return;
+                                case "Cherry":
+                                    //todo
+                                    break;
+                                case "Coin":
+                                    //todo
+                                    break;
+                                default:
+                                    throw new RuntimeException("Bad collision from " + collision.getSourceEntityType()
+                                            + " onto " + collision.getCollidedEntityType());
+                            }
+                            break;
+                        case "Ghost":
+                            switch (collision.getCollidedEntityType()) {
+                                case "Wall":
+                                    //todo
+                                    break;
+                                default:
+                                    if (VERBOSE) System.out.println("Ghost collided with "
+                                            + collision.getCollidedEntityType() + ", no action necessary");
+                            }
+                            break;
+                        default:
+                            throw new RuntimeException("No type found in getSourceEntityType switch: "
+                                    + collision.getSourceEntityType());
                     }
                 }
 
-                threadSleep(10);
+                threadSleep(20);
             } else {
                 System.out.println("Currently Paused..");
-                threadSleep(100);
+                threadSleep(500);
             }
         }
 
@@ -126,22 +156,25 @@ public class SystemManager
     /** Collision detection
      * @return the first entity it registers having collided with. Returns null when there are no collisions.
      */
-    private ArrayList<Entity> detectCollision(Entity ent) {
-        Position2D entPosition = ent.getPosition();
+    private ArrayList<Collision> detectCollisions() {
+        ArrayList<Collision> collisionList = new ArrayList<>();
 
-        ArrayList<Entity> aList = new ArrayList<>();
-
-        //iterate through our entities to check for Pacmans hitbox overlapping w/ another entity's location
-        for (Entity entity : entities) {
-            //if (!ent.equals(entity))
-            if(ent != entity) {
-                Position2D entityPosition = entity.getPosition();
-                if (entPosition.overlaps(entityPosition)) {
-                    aList.add(entity);
+        for (Entity sourceEntity : entities) {
+            if (!sourceEntity.canMove()) {
+                continue;
+            }
+            //iterate through our entities to check for an Entity's hitbox overlapping w/ another entity's location
+            Position2D sourceEntityPosition = sourceEntity.getPosition();
+            for (Entity targetEntity : entities) {
+                if (sourceEntity != targetEntity && sourceEntity.canMove()) {
+                    Position2D targetEntityPosition = targetEntity.getPosition();
+                    if (sourceEntityPosition.overlaps(targetEntityPosition)) {
+                        collisionList.add(new Collision(sourceEntity, targetEntity));
+                    }
                 }
             }
         }
-        return aList;
+        return collisionList;
     }
 
     // Just here to improve code readability by grabbing the try-catch

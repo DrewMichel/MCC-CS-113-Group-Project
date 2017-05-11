@@ -9,8 +9,6 @@ import java.awt.Color;
  * on 4/24/2017
  *
  * MiraCosta College - CS 113 Monday 5:30-9:20
- *
- * Not implemented
  */
 public class Ghost extends Entity
 {

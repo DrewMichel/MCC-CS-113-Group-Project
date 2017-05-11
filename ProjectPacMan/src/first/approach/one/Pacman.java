@@ -10,7 +10,6 @@ import java.awt.*;
  *
  * MiraCosta College - CS 113 Monday 5:30-9:20
  *
- * Not implemented
  * Player class
  * Track player lives here or SystemManager(ideal?)
  */
@@ -50,7 +49,7 @@ public class Pacman extends Entity
     @Override
     public boolean attemptMove()
     {
-        System.out.println(getPosition());
+        if (SystemManager.VERBOSE) System.out.println(getPosition());
 
         if(this.getDirection() == Direction.NORTH)
         {
