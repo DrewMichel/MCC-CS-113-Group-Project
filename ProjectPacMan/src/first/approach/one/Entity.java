@@ -36,8 +36,6 @@ public abstract class Entity
     
     public Entity(Position2D position, Color color, boolean canMove, Shape shape)
     {
-
-
         setPosition(position);
     	setColor(color);
     	setMove(canMove);

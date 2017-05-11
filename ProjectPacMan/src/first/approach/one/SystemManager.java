@@ -27,44 +27,30 @@ import java.util.ArrayList;
 
 public class SystemManager
 {
-    public static final boolean VERBOSE = true; //for showing error logs
+    public static final int VERBOSITY = 1; //0 = off, 1 = low, 2 = high ..amount of console output
 
     private ArrayList<Entity> entities;
-
     private PlayerController pc;
-
     private boolean paused;
-
     private Ghost red;
-
     private Ghost blue;
-
     private Ghost yellow;
-
     private Ghost green;
-
-    public Pacman player;
+    private Pacman player;
 
     public SystemManager()
     {
         entities = new ArrayList<>();
         
         entities.add(new Wall(new Position2D(20,20,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        
         entities.add(new Wall(new Position2D(20,650,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        
         entities.add(new Wall(new Position2D(1150,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-
         entities.add(new Wall(new Position2D(20,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-
         entities.add(new Ghost(new Position2D(200, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE));
 
         player = new Pacman(new Position2D(100,100,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
-
         entities.add(player);
-
         pc = new PlayerController(player);
-
         paused = false;
     }
 
@@ -75,23 +61,22 @@ public class SystemManager
         // move but for some reason the frame doesn't start redrawing. I have no idea why.
         while(true) {
             if (!paused) {
-                //Position2D playerPosition = new Position2D(player.getPosition());
                 for (Entity entity : entities) {
                     if (entity.canMove()) {
                         entity.attemptMove();
                     }
                 }
 
-
+                //Collision Detection
                 ArrayList<Collision> collisions = detectCollisions();
                 for (Collision collision : collisions) {
-                    if (VERBOSE) System.out.println("Collision from " + collision.getSourceEntityType()
+                    if (VERBOSITY>0) System.out.println("Collision from " + collision.getSourceEntityType()
                             + " onto " + collision.getCollidedEntityType());
                     switch (collision.getSourceEntityType()) {
                         case "Pacman":
                             switch (collision.getCollidedEntityType()) {
                                 case "Wall":
-                                    player.setPosition(collision.getPreviousPosition());
+                                    collision.getSourceEntity().setPosition(collision.getPreviousPosition());
                                     break;
                                 case "Ghost":
                                     System.out.println("GAME OVER");
@@ -110,10 +95,11 @@ public class SystemManager
                         case "Ghost":
                             switch (collision.getCollidedEntityType()) {
                                 case "Wall":
-                                    //todo
+                                    //todo this will just make it stop. We'll want to replace it with Ghost algs.
+                                    collision.getSourceEntity().setPosition(collision.getPreviousPosition());
                                     break;
                                 default:
-                                    if (VERBOSE) System.out.println("Ghost collided with "
+                                    if (VERBOSITY>0) System.out.println("Ghost collided with "
                                             + collision.getCollidedEntityType() + ", no action necessary");
                             }
                             break;
@@ -153,8 +139,8 @@ public class SystemManager
         return entities;
     }
 
-    /** Collision detection
-     * @return the first entity it registers having collided with. Returns null when there are no collisions.
+    /** Collision detection. Loops through all the entitys which canMove and detects overlap with other entitys.
+     * @return an ArrayList of all the collisions. No collisions will return an empty ArrayList.
      */
     private ArrayList<Collision> detectCollisions() {
         ArrayList<Collision> collisionList = new ArrayList<>();
@@ -206,8 +192,6 @@ public class SystemManager
         @Override
         public void keyPressed(KeyEvent e)
         {
-            System.out.println("KEYCODE: " + e.getKeyCode());
-
             if(e.getKeyCode() == (KeyEvent.VK_UP))
             {
                 player.setDirection(Entity.Direction.NORTH);
@@ -228,6 +212,9 @@ public class SystemManager
             {
                 paused = !paused;
             }
+
+            if (VERBOSITY>0) System.out.println("KEYCODE: " + e.getKeyCode()
+                    + ", Player heading: " + player.getDirection());
         }
 
         @Override

@@ -22,14 +22,6 @@ public class Position2D
     private int width;
     private int height;
     
-    public Position2D()
-    {
-        xPosition = 0;
-        yPosition = 0;
-        width = 0;
-        height = 0;
-    }
-    
     public Position2D(int x, int y, int w, int h)
     {
         xPosition = x;
@@ -37,15 +29,15 @@ public class Position2D
         width = w;
         height = h;
     }
-    
+
+    public Position2D()
+    {
+        this(0,0,0,0);
+    }
+
     public Position2D(Position2D pos)
     {
-        // NDR 2017.05.07 removed the null check from this function. There's no reason to gracefully handle an
-        // an error here. If there is a mistake and we try and initialize with a null object we WANT it to throw.
-        this.xPosition = pos.xPosition;
-        this.yPosition = pos.yPosition;
-        this.width = pos.width;
-        this.height = pos.height;
+        this(pos.xPosition, pos.yPosition, pos.width, pos.height);
     }
     
     // GETTERS

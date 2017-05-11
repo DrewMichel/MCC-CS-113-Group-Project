@@ -17,9 +17,7 @@ public class Pacman extends Entity
 {
     public Pacman()
     {
-        super(new Position2D(), Color.YELLOW, true, Shape.CIRCLE);
-
-        this.setDirection(Direction.SOUTH);
+        this(new Position2D(), Color.YELLOW, true, Shape.CIRCLE);
     }
 
     public Pacman(Position2D pos, Color color, boolean canMove, Shape shape)
@@ -49,30 +47,21 @@ public class Pacman extends Entity
     @Override
     public boolean attemptMove()
     {
-        if (SystemManager.VERBOSE) System.out.println(getPosition());
+        if (SystemManager.VERBOSITY>1) System.out.println(getPosition());
 
-        if(this.getDirection() == Direction.NORTH)
-        {
-            return this.decrementY();
-        }
-        if(this.getDirection() == Direction.EAST)
-        {
-            return this.incrementX();
-        }
-        if(this.getDirection() == Direction.SOUTH)
-        {
-            return this.incrementY();
-        }
-        if(this.getDirection() == Direction.WEST)
-        {
-            return this.decrementX();
-        }
-        else
-        {
-            return false;
+        switch (getDirection()) {
+            case NORTH:
+                return decrementY();
+            case EAST:
+                return incrementX();
+            case SOUTH:
+                return incrementY();
+            case WEST:
+                return decrementX();
+            default:
+                return false;
         }
     }
-
 
     @Override
     public boolean paintEntity(Graphics g)
