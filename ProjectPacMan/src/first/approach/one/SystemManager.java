@@ -39,9 +39,6 @@ public class SystemManager
     private Ghost green;
     private Pacman player;
 
-    public SystemManager()
-    {
-
     public SystemManager() {
 
         // @Julian Conner - FOR THE REST OF THE TEAM
@@ -70,19 +67,10 @@ public class SystemManager
 
     }
 
-    /**
-     * Gets the walls in the PacMan game
-     * @return ArrayList that holds the Walls in the game
-     */
-    public ArrayList<Wall> getWalls()
-    {
-        return walls;
-    }
+
 
     public void initialize()
     {
-        // Lets the Ghosts know where the walls are ahead of time for faster routes to PacMan
-        Ghost.setWalls( walls );
 
         // Lets the Ghosts always know where PacMan is
         Ghost.setPacman( player);
