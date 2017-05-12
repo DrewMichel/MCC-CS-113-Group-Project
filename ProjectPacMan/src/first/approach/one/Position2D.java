@@ -41,15 +41,15 @@ public class Position2D
         width = w;
         height = h;
     }
-    
+
+    public Position2D()
+    {
+        this(0,0,0,0);
+    }
+
     public Position2D(Position2D pos)
     {
-        // NDR 2017.05.07 removed the null check from this function. There's no reason to gracefully handle an
-        // an error here. If there is a mistake and we try and initialize with a null object we WANT it to throw.
-        this.xPosition = pos.xPosition;
-        this.yPosition = pos.yPosition;
-        this.width = pos.width;
-        this.height = pos.height;
+        this(pos.xPosition, pos.yPosition, pos.width, pos.height);
     }
     
     // GETTERS
@@ -208,8 +208,8 @@ public class Position2D
     public int[] smallestDistanceBetweenPositions( Position2D otherPosition)
     {
         int[] distance = new int[2];
-        
-        
+
+
         int smallestX ;
         int xFromStartToStart = getXPosition() - otherPosition.getXPosition();
         int xFromStartToEnd = xFromStartToStart - otherPosition.getWidth();
@@ -220,13 +220,13 @@ public class Position2D
         int yFromStartToEnd = yFromStartToStart - otherPosition.getWidth();
         int yFromEndToStart = yFromStartToStart + getWidth();
         int yFromEndToEnd = yFromEndToStart + getWidth();
-        
+
         // Set the smallest x distance
         distance[0] = Helper.findSmallest( true, xFromEndToEnd , xFromEndToStart , xFromStartToEnd , xFromStartToStart);
 
         // Set the smallest y distance
         distance[1] = Helper.findSmallest(true, yFromEndToEnd , yFromEndToStart , yFromStartToEnd , yFromStartToStart);
-        
+
         return distance;
     }
 

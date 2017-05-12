@@ -26,7 +26,8 @@ public abstract class Entity
 
     // ENUM OR CONSTANT FOR SHAPE --- FILLARC, FILLRECT, etc...
     public enum Shape {RECTANGLE, CIRCLE}
-    
+
+    private Position2D previousPosition;
     private Position2D position;
     private Color color;
     private boolean canMove;
@@ -35,13 +36,18 @@ public abstract class Entity
     
     public Entity(Position2D position, Color color, boolean canMove, Shape shape)
     {
-    	this.position = position;
-    	this.color = color;
-    	this.canMove = canMove;
+        setPosition(position);
+    	setColor(color);
+    	setMove(canMove);
     	this.shape = shape;
     	dir = Direction.SOUTH;
     }
-    
+
+    public Position2D getPreviousPosition()
+    {
+        return previousPosition;
+    }
+
     public Position2D getPosition()
     {
         return position;
@@ -49,14 +55,18 @@ public abstract class Entity
     
     public boolean setPosition(Position2D pos)
     {
+        previousPosition = (previousPosition == null) ? new Position2D(pos) : position;
         position = new Position2D(pos);
         return true;
     }
     
     public boolean setPosition(int x, int y, int w, int h)
     {
-        position = new Position2D(x, y, w, h);
-        return true;
+        return setPosition( new Position2D(x, y, w, h) );
+    }
+
+    public boolean setPosition(int x, int y) {
+        return setPosition(x,y,position.getWidth(), position.getHeight());
     }
     
     public boolean setColor(Color c)
@@ -88,45 +98,37 @@ public abstract class Entity
 
     public boolean attemptMove(Position2D pos)
     {
-        this.position = new Position2D(pos);
-        return true;
+        return setPosition(pos);
     }
 
     public boolean attemptMove(int x, int y)
     {
-        this.position = new Position2D(x, y, this.position.getWidth(), this.position.getHeight());
-        return true;
+        return setPosition(x, y);
     }
 
     public boolean incrementX()
     {
-        this.position.incrementX();
-        return true;
+        return setPosition(this.position.getXPosition() + 1, this.position.getYPosition());
     }
 
     public boolean decrementX()
     {
-        this.position.decrementX();
-        return true;
+        return setPosition(this.position.getXPosition() - 1, this.position.getYPosition());
     }
 
     public boolean incrementY()
     {
-        this.position.incrementY();
-        return true;
+        return setPosition(this.position.getXPosition(), this.position.getYPosition() + 1);
     }
 
     public boolean decrementY()
     {
-        this.position.decrementY();
-        return true;
+        return setPosition(this.position.getXPosition(), this.position.getYPosition() - 1);
     }
 
     public boolean offset(int x, int y)
     {
-        this.position.setXPosition(this.position.getXPosition() + x);
-        this.position.setYPosition(this.position.getYPosition() + y);
-        return true;
+        return setPosition(this.position.getXPosition() + x, this.position.getYPosition() + y);
     }
 
     public Direction getDirection()
