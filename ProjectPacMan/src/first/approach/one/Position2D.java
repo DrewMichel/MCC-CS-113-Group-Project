@@ -24,15 +24,7 @@ public class Position2D
     private int width;
     private int height;
     
-    public Position2D()
-    {
-        xPosition = 0;
-        yPosition = 0;
-        width = 0;
-        height = 0;
-        defaultXIncrementValue = 1;
-        defaultYIncrementValue = 1;
-    }
+
     
     public Position2D(int x, int y, int w, int h)
     {
