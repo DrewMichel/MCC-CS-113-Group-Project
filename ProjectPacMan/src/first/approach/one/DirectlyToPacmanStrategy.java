@@ -19,7 +19,8 @@ public class DirectlyToPacmanStrategy extends GhostMovementStrategy {
     /**
      * Implements the algorithm for the Ghost to move directly to the Pacman Object
      */
-    public void move()
+    @Override
+    public boolean move()
     {
         Pacman pacman = Ghost.getPacman();
         int[] distanceFromPacman = ghost.getPosition().smallestDistanceBetweenPositions(pacman.getPosition());
@@ -47,6 +48,9 @@ public class DirectlyToPacmanStrategy extends GhostMovementStrategy {
         {
             ghost.decrementY();
         }
+
+        // TODO : Figure out how to choose which boolean to return
+        return true;
     }
 
 

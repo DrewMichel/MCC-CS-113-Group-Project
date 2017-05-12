@@ -82,8 +82,8 @@ public class Ghost extends Entity
     @Override
     public boolean attemptMove()
     {
-        ghostMovementStrategy.move();
-        return true;
+        return ghostMovementStrategy.move();
+
 
     }
 }

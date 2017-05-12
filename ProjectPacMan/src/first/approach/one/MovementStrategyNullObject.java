@@ -22,8 +22,8 @@ public class MovementStrategyNullObject extends GhostMovementStrategy {
     /**
      * Default implementation for no movement set strategy object
      */
-    public void move()
+    public boolean move()
     {
-
+        return true;
     }
 }

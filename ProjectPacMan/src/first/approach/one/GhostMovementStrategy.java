@@ -9,6 +9,6 @@ public abstract class GhostMovementStrategy {
 
     protected Ghost ghost;
 
-    public void move(){};
+    public abstract boolean move();
 
 }

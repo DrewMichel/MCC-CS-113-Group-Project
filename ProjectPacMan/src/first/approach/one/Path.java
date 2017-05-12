@@ -13,6 +13,7 @@ public class Path extends Entity{
 
     private ArrayList<Wall> walls = new ArrayList<>() ;
     private int leftWallWidth , rightWallWidth, topWallHeight , bottomWallHeight;
+
     /**
      * Default constructor for path
      * @param position
@@ -27,10 +28,20 @@ public class Path extends Entity{
 
     }
 
+    /**
+     * Gets the Walls of this Path object
+     * @return ArrayList<Wall> containing all the Path's Walls
+     */
     public ArrayList<Wall> getWalls()
     {
         return new ArrayList<Wall>(walls.subList(0 , walls.size()));
     }
+
+    /**
+     * Sets the wall dimensions
+     * @param width  the width of the walls on the sides
+     * @param height the height of the walls on the top and bottom
+     */
     public void setWallDimensions( int width , int height)
     {
         leftWallWidth = width;
@@ -50,6 +61,39 @@ public class Path extends Entity{
         test.createBottomWall();
 
         return test;
+    }
+
+    /**
+     * Testing how to create connected paths
+     * @return
+     */
+    public static List<Path> createTestPaths()
+    {
+        Path testBarrier , testCorner , testAttach;
+        // TODO : Use the start path's position and size to determine the connecting path's dimensions & location
+        // TODO : Repeat with each new path relying on the previous path's location and dimensions
+        ArrayList<Path> testPaths = new ArrayList<>();
+        testPaths.add( createTestPath());
+
+        testCorner = new Path(new Position2D(550, 200, 100, 100), Color.GREEN, false, Entity.Shape.RECTANGLE);
+        testCorner.setWallDimensions(20,20);
+        testCorner.createTopRightCorner();
+        //testCorner.createTopWall();
+
+        testAttach = new Path(new Position2D(550, 300, 100, 200), Color.PINK, false, Entity.Shape.RECTANGLE);
+        testAttach.setWallDimensions(20,20);
+        testAttach.createSideWalls();
+
+        testBarrier = Path.createBoxedPath(800 , 250, 200 , 300 , 20, 20 ,Color.ORANGE);
+
+        testPaths.add(testCorner);
+        testPaths.add(testAttach);
+        testPaths.add(testBarrier);
+
+        return testPaths;
+
+
+
     }
 
     /**
@@ -111,39 +155,6 @@ public class Path extends Entity{
     }
 
     /**
-     * Testing how to create connected paths
-     * @return
-     */
-    public static List<Path> createTestPaths()
-    {
-        Path testBarrier , testCorner , testAttach;
-        // TODO : Use the start path's position and size to determine the connecting path's dimensions & location
-        // TODO : Repeat with each new path relying on the previous path's location and dimensions
-        ArrayList<Path> testPaths = new ArrayList<>();
-        testPaths.add( createTestPath());
-
-        testCorner = new Path(new Position2D(550, 200, 100, 100), Color.GREEN, false, Entity.Shape.RECTANGLE);
-        testCorner.setWallDimensions(20,20);
-        testCorner.createTopRightCorner();
-        //testCorner.createTopWall();
-
-        testAttach = new Path(new Position2D(550, 300, 100, 200), Color.PINK, false, Entity.Shape.RECTANGLE);
-        testAttach.setWallDimensions(20,20);
-        testAttach.createSideWalls();
-
-        testBarrier = Path.createBoxedPath(800 , 250, 200 , 300 , 20, 20 ,Color.ORANGE);
-
-        testPaths.add(testCorner);
-        testPaths.add(testAttach);
-        testPaths.add(testBarrier);
-
-        return testPaths;
-
-
-
-    }
-
-    /**
      * Creates walls on all sides of the path
      */
     public void createAllWalls()
@@ -175,6 +186,14 @@ public class Path extends Entity{
     }
 
     /**
+     * Creates a top left corner
+     */
+    public void createTopLeftCorner()
+    {
+        createTopWall();
+        createLeftWall();
+    }
+    /**
      * Creates a top right corner
      */
     public void createTopRightCorner()
@@ -193,12 +212,39 @@ public class Path extends Entity{
     }
 
     /**
+     * Creates a bottom left corner
+     */
+    public void createBottomLeftCorner()
+    {
+        createBottomWall();;
+        createLeftWall();
+    }
+    /**
      * Creates a bottom dead end
      */
     public void createBottomDeadEnd()
     {
         createSideWalls();
         createBottomWall();
+    }
+
+
+    /**
+     * Creates a dead end in the left side
+     */
+    public void createLeftDeadEnd()
+    {
+        createTopAndBottomWalls();
+        createLeftWall();
+    }
+
+    /**
+     * Creates a dead end in the right side
+     */
+    public void createRightDeadEnd()
+    {
+        createTopAndBottomWalls();
+        createRightWall();
     }
 
     /**
@@ -225,6 +271,7 @@ public class Path extends Entity{
     {
         createBottomWall( bottomWallHeight , width);
     }
+
     /**
      * Creates a Wall that borders that bottom of the Path
      * @param height
@@ -287,6 +334,7 @@ public class Path extends Entity{
     {
         createRightWall( height , rightWallWidth);
     }
+
     /**
      * Creates a Wall that borders that right side of the Path
      * @param height
@@ -318,6 +366,7 @@ public class Path extends Entity{
     {
         createTopWall( topWallHeight , width);
     }
+
     /**
      * Creates a Wall that borders that top of the Path
      * @param height
