@@ -14,16 +14,19 @@ public class MovementStrategyNullObject extends GhostMovementStrategy {
     /**
      * Constructor for no movement null replacement object
      */
-    public MovementStrategyNullObject()
+    public MovementStrategyNullObject( Ghost ghost)
     {
-
+          this.ghost = ghost;
+          setHasMovement(false);
     }
 
     /**
      * Default implementation for no movement set strategy object
      */
-    public boolean move()
+    public boolean movementAlgorithm()
     {
+        // TODO : May change what the null object does for the Ghost's movement
+        // TODO: May change this to false so we know it wasn't implemented
         return true;
     }
 }

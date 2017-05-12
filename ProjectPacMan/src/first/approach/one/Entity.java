@@ -43,6 +43,25 @@ public abstract class Entity
     	dir = Direction.SOUTH;
     }
 
+    /**
+     * Sets the previous position
+     * @param pos
+     * @return
+     */
+    public boolean setPreviousPosition( Position2D pos)
+    {
+        if( pos == null)
+        {
+            return false;
+        }
+        else
+        {
+            previousPosition = pos;
+
+            return true;
+        }
+    }
+
     public Position2D getPreviousPosition()
     {
         return previousPosition;

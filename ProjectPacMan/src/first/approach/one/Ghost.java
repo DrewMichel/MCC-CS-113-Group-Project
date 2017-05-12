@@ -16,7 +16,7 @@ public class Ghost extends Entity
 {
     private static ArrayList<Wall> walls = new ArrayList<>();
     private static Pacman pacman;
-    private GhostMovementStrategy ghostMovementStrategy  = new MovementStrategyNullObject();
+    private GhostMovementStrategy ghostMovementStrategy  = new MovementStrategyNullObject( this);
 
     public Ghost()
     {
@@ -35,6 +35,14 @@ public class Ghost extends Entity
         this.setDirection(Direction.SOUTH);
     }
 
+    /**
+     * Sets whether the Ghost object is currently moving
+     * @param canCurrentlyMove whether or not the Ghost is moving or staying still
+     */
+    public void canCurrentlyMove( boolean canCurrentlyMove )
+    {
+        ghostMovementStrategy.setHasMovement( canCurrentlyMove );
+    }
     /**
      * Sets the Ghost's movement algorithm
      * @param movementStrategy The object that has the Ghost movement algorithm

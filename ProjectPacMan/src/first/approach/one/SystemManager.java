@@ -47,6 +47,7 @@ public class SystemManager
         List<Path> testPaths = Path.createTestPaths();
         Ghost testGhost = new Ghost(new Position2D(800, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
 
+
         // @Julian Conner - FOR THE REST OF THE TEAM
         // Note : If you want the ghost to stop moving so you can try out the new colored paths
         //        comment out this next line of code
@@ -72,6 +73,7 @@ public class SystemManager
     public void initialize()
     {
 
+        String sourceEntityType  , collidedEntityType;
         // Lets the Ghosts always know where PacMan is
         Ghost.setPacman( player);
 
@@ -89,11 +91,18 @@ public class SystemManager
                 //Collision Detection
                 ArrayList<Collision> collisions = detectCollisions();
                 for (Collision collision : collisions) {
-                    if (VERBOSITY>0) System.out.println("Collision from " + collision.getSourceEntityType()
-                            + " onto " + collision.getCollidedEntityType());
-                    switch (collision.getSourceEntityType()) {
+
+                    sourceEntityType = collision.getSourceEntityType();
+                    collidedEntityType = collision.getCollidedEntityType();
+                    if (VERBOSITY > 0)
+                    {
+                        System.out.println("Collision from " + sourceEntityType
+                                + " onto " + collidedEntityType);
+                    }
+
+                    switch (sourceEntityType) {
                         case "Pacman":
-                            switch (collision.getCollidedEntityType()) {
+                            switch ( collidedEntityType ) {
                                 case "Wall":
                                     collision.getSourceEntity().setPosition(collision.getPreviousPosition());
                                     break;
@@ -112,7 +121,7 @@ public class SystemManager
                             }
                             break;
                         case "Ghost":
-                            switch (collision.getCollidedEntityType()) {
+                            switch ( collidedEntityType ) {
                                 case "Wall":
                                     //todo this will just make it stop. We'll want to replace it with Ghost algs.
                                     collision.getSourceEntity().setPosition(collision.getPreviousPosition());

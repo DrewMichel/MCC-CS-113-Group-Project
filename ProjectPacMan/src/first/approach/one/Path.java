@@ -84,7 +84,7 @@ public class Path extends Entity{
         testAttach.setWallDimensions(20,20);
         testAttach.createSideWalls();
 
-        testBarrier = Path.createBoxedPath(800 , 250, 200 , 300 , 20, 20 ,Color.ORANGE);
+        testBarrier = Path.createBoxedPath(800 , 300, 200 , 250 , 20, 20 ,Color.ORANGE);
 
         testPaths.add(testCorner);
         testPaths.add(testAttach);
