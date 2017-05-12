@@ -172,7 +172,7 @@ public class SystemManager
             //iterate through our entities to check for an Entity's hitbox overlapping w/ another entity's location
             Position2D sourceEntityPosition = sourceEntity.getPosition();
             for (Entity targetEntity : entities) {
-                if (sourceEntity != targetEntity && sourceEntity.canMove()) {
+                if (sourceEntity != targetEntity && sourceEntity.canMove() && !(targetEntity instanceof Path)) {
                     Position2D targetEntityPosition = targetEntity.getPosition();
                     if (sourceEntityPosition.overlaps(targetEntityPosition)) {
                         collisionList.add(new Collision(sourceEntity, targetEntity));
