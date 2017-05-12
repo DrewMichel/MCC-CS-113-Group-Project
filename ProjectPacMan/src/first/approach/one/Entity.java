@@ -100,25 +100,25 @@ public abstract class Entity
 
     public boolean incrementX()
     {
-        this.position.setXPosition(this.position.getXPosition() + 1);
+        this.position.incrementX();
         return true;
     }
 
     public boolean decrementX()
     {
-        this.position.setXPosition(this.position.getXPosition() - 1);
+        this.position.decrementX();
         return true;
     }
 
     public boolean incrementY()
     {
-        this.position.setYPosition(this.position.getYPosition() + 1);
+        this.position.incrementY();
         return true;
     }
 
     public boolean decrementY()
     {
-        this.position.setYPosition(this.position.getYPosition() - 1);
+        this.position.decrementY();
         return true;
     }
 
@@ -155,4 +155,5 @@ public abstract class Entity
         
         return true;
     }
+
 }

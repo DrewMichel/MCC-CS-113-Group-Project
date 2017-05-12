@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andrew Michel,
@@ -25,8 +26,7 @@ import java.util.ArrayList;
  * of into ArrayList?
  */
 
-public class SystemManager
-{
+public class SystemManager {
     private ArrayList<Entity> entities;
 
     private PlayerController pc;
@@ -42,32 +42,68 @@ public class SystemManager
     private Ghost green;
 
     public Pacman player;
-    
-    public SystemManager()
-    {
+
+    private ArrayList<Wall> walls; // @Julian Conner - Added to use for Ghost movement calculations
+
+    public SystemManager() {
+
+        // @Julian Conner - FOR THE REST OF THE TEAM
+        // Note : I colored each seperate Path a different color so its easier to see which Path code made which path
+        //        In the future I will make it the same color as the board & fix the wall proportions
+        List<Path> testPaths = Path.createTestPaths();
+        Ghost testGhost = new Ghost(new Position2D(800, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
+
+        // @Julian Conner - FOR THE REST OF THE TEAM
+        // Note : If you want the ghost to stop moving so you can try out the new colored paths
+        //        comment out this next line of code
+        testGhost.setGhostMovementStrategy( new DirectlyToPacmanStrategy(testGhost));
+
         entities = new ArrayList<>();
-        
-        entities.add(new Wall(new Position2D(20,20,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        
-        entities.add(new Wall(new Position2D(20,650,1150,20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        
-        entities.add(new Wall(new Position2D(1150,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        walls = new ArrayList<>();
 
-        entities.add(new Wall(new Position2D(20,20,20,650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
 
-        entities.add(new Ghost(new Position2D(200, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE));
+        entities.add(new Wall(new Position2D(20, 650, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
 
-        player = new Pacman(new Position2D(100,100,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
+        entities.add(new Wall(new Position2D(1150, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+
+        entities.add(new Wall(new Position2D(20, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        entities.addAll( Path.getAllPathEntities(testPaths));
+        entities.add( testGhost);
+
+        player = new Pacman(new Position2D(100, 100, 50, 50), Color.YELLOW, true, Entity.Shape.CIRCLE);
 
         entities.add(player);
 
         pc = new PlayerController(player);
 
         paused = false;
+
+        // @Julian Conner - Added storage for the Walls that the Ghost objects use for calculating movement
+        for (Entity entity : entities) {
+            if (entity instanceof Wall) {
+                walls.add((Wall) entity);
+            }
+        }
+    }
+
+    /**
+     * Gets the walls in the PacMan game
+     * @return ArrayList that holds the Walls in the game
+     */
+    public ArrayList<Wall> getWalls()
+    {
+        return walls;
     }
 
     public void initialize()
     {
+        // Lets the Ghosts know where the walls are ahead of time for faster routes to PacMan
+        Ghost.setWalls( walls );
+
+        // Lets the Ghosts always know where PacMan is
+        Ghost.setPacman( player);
+
         // NDR 2017.05.07 I changed 'while(!paused)...' to 'while(true) { if !(paused)...' to fix the bug w/ not being
         // able to return from a paused state. Which kind of worked.. the application starts again and the Pacman will
         // move but for some reason the frame doesn't start redrawing. I have no idea why.
@@ -83,13 +119,21 @@ public class SystemManager
                 for (Entity entity : entities) {
                     // Hit detection
                     // TODO: CHANGE TO ARRAYLIST, ITERATE OVER ARRAYLIST AND DO COLLISION
-                    Object detectCollision = detectCollision(entity);
-                    if (detectCollision instanceof Wall) {
-                        System.out.println("DEBUG: Wall Collision detected");
-                        player.setPosition(playerPosition);
-                    } else if (detectCollision instanceof Ghost) {
-                        System.out.println("DEBUG: GAME OVER - Ghost Collision detected");
-                        return;
+                    if( entity.canMove() ) {
+                        ArrayList<Entity> detectCollision = detectCollision(entity);
+                        for (Entity collidedEntity : detectCollision) {
+                            if (collidedEntity instanceof Wall) {
+                                System.out.println("DEBUG: Wall Collision detected");
+                                if( entity instanceof Pacman)
+                                {
+                                    player.setPosition(playerPosition);
+
+                                }
+                            } else if ( entity instanceof Pacman && collidedEntity instanceof Ghost) {
+                                System.out.println("DEBUG: GAME OVER - Ghost Collision detected");
+                                return;
+                            }
+                        }
                     }
                 }
 
@@ -101,6 +145,7 @@ public class SystemManager
         }
 
     }
+
 
     public PlayerController getPlayerController()
     {

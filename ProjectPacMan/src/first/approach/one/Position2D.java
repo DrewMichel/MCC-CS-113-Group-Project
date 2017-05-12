@@ -16,6 +16,8 @@ package first.approach.one;
 
 public class Position2D
 {
+    private int defaultXIncrementValue  = 1;
+    private int defaultYIncrementValue  = 1;
     private int xPosition;
     private int yPosition;
     
@@ -28,6 +30,8 @@ public class Position2D
         yPosition = 0;
         width = 0;
         height = 0;
+        defaultXIncrementValue = 1;
+        defaultYIncrementValue = 1;
     }
     
     public Position2D(int x, int y, int w, int h)
@@ -76,7 +80,11 @@ public class Position2D
     {
         return height;
     }
-    
+
+    public int getDefaultXIncrementValue() { return defaultXIncrementValue;}
+
+    public int getDefaultYIncrementValue() { return defaultYIncrementValue; }
+
     // SETTERS
     public boolean setXPosition(int x)
     {
@@ -98,7 +106,130 @@ public class Position2D
         height = h;
         return true;
     }
-    
+
+    /**
+     * Sets the default X position increment value
+     * <note>
+     *     This is in case we want to change how much one increment should move the entity
+     * </note>
+     * @param amount
+     */
+    public void setDefaultXIncrementValue( int amount)
+    {
+        defaultXIncrementValue = amount;
+    }
+
+    /**
+     * Sets the default Y position increment value
+     * <note>
+     *     This is in case we want to change how much one increment should move the entity
+     * </note>
+     * @param amount
+     */
+    public void setDefaultYIncrementValue( int amount)
+    {
+        defaultYIncrementValue = amount;
+    }
+
+    /**
+     * Increments the x position by the default amount
+     */
+    public void incrementX()
+    {
+        xPosition += defaultXIncrementValue;
+    }
+
+    /**
+     * Increments the y position by the default amount
+     */
+    public void incrementY()
+    {
+        yPosition += defaultYIncrementValue;
+    }
+
+    /**
+     * Increments the x position by a specified amount
+     * @param amount
+     */
+    public void incrementX( int amount)
+    {
+        xPosition += amount;
+    }
+
+    /**
+     * Increments the y position by a specified amount
+     * @param amount
+     */
+    public void incrementY( int amount)
+    {
+        yPosition += amount;
+    }
+    /**
+     * Decrements the x position by the default amount
+     */
+    public void decrementX()
+    {
+        xPosition -= defaultXIncrementValue;
+    }
+
+    /**
+     * Decrements the y position by the default amount
+     */
+    public void decrementY()
+    {
+        yPosition -= defaultYIncrementValue;
+    }
+
+    /**
+     * Decrements the x position by a specified amount
+     * @param amount
+     */
+    public void decrementX( int amount)
+    {
+        xPosition -= amount;
+    }
+
+    /**
+     * Decrements the y position by a specified amount
+     * @param amount
+     */
+    public void decrementY( int amount)
+    {
+        yPosition -= amount;
+    }
+
+    /**
+     * Finds the shortest distance between two positions
+     * @param otherPosition
+     * @return int[] that contains the shortest x and y distances between two positions,
+     *          index[0] = x distance
+     *          index[1] = y distance
+     */
+    public int[] smallestDistanceBetweenPositions( Position2D otherPosition)
+    {
+        int[] distance = new int[2];
+        
+        
+        int smallestX ;
+        int xFromStartToStart = getXPosition() - otherPosition.getXPosition();
+        int xFromStartToEnd = xFromStartToStart - otherPosition.getWidth();
+        int xFromEndToStart = xFromStartToStart + getWidth();
+        int xFromEndToEnd = xFromEndToStart + getWidth();
+
+        int yFromStartToStart = getYPosition() - otherPosition.getYPosition();
+        int yFromStartToEnd = yFromStartToStart - otherPosition.getWidth();
+        int yFromEndToStart = yFromStartToStart + getWidth();
+        int yFromEndToEnd = yFromEndToStart + getWidth();
+        
+        // Set the smallest x distance
+        distance[0] = Helper.findSmallest( true, xFromEndToEnd , xFromEndToStart , xFromStartToEnd , xFromStartToStart);
+
+        // Set the smallest y distance
+        distance[1] = Helper.findSmallest(true, yFromEndToEnd , yFromEndToStart , yFromStartToEnd , yFromStartToStart);
+        
+        return distance;
+    }
+
     public String toString()
     {
         return "2DPOSITION -> X: " + xPosition + " Y: " + yPosition + " Width: " + width + " Height: " + height;
