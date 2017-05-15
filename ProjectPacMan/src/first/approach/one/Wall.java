@@ -16,8 +16,10 @@ import java.awt.Color;
 
 public class Wall extends Entity
 {
-	public Wall(Position2D position, Color color, boolean canMove, Shape shape)
-    {
-    	super(position, color, canMove, shape);
-    }
+
+    public Wall(Position2D position)
+        {
+            super(position, Color.BLUE, false, Shape.RECTANGLE);
+        }
+
 }

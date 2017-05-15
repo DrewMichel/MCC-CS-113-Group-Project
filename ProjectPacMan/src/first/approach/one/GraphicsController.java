@@ -29,7 +29,7 @@ import java.awt.Graphics;
  */
 public class GraphicsController extends JFrame
 {
-    public static final int DEFAULT_WIDTH = 1250;
+    public static final int DEFAULT_WIDTH = 1225;
     public static final int DEFAULT_HEIGHT = 750;
     
     private SystemManager manager;

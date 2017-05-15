@@ -13,8 +13,8 @@ import java.awt.Color;
  */
 public class Cherry extends Entity
 {
-    public Cherry()
+    public Cherry(Position2D position)
     {
-        super(new Position2D(), Color.RED, false, Shape.CIRCLE);
+        super(position, Color.RED, false, Shape.CIRCLE);
     }
 }

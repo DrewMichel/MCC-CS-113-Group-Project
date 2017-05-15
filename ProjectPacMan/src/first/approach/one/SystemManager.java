@@ -1,5 +1,6 @@
 package first.approach.one;
 
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +39,9 @@ public class SystemManager
     private Ghost yellow;
     private Ghost green;
     private Pacman player;
+    public static int score = 0;
+    public static int cherries = 0;
+    public static String message = "";
 
     public SystemManager() {
 
@@ -45,26 +49,129 @@ public class SystemManager
         // Note : I colored each seperate Path a different color so its easier to see which Path code made which path
         //        In the future I will make it the same color as the board & fix the wall proportions
         List<Path> testPaths = Path.createTestPaths();
-        Ghost testGhost = new Ghost(new Position2D(800, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
+        Ghost blinky = new Ghost(new Position2D(400, 120, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
+        Ghost pinky = new Ghost(new Position2D(780, 120, 40, 40), Color.PINK, true, Entity.Shape.RECTANGLE);
+        Ghost inky = new Ghost(new Position2D(450, 250, 40, 40), Color.CYAN, true, Entity.Shape.RECTANGLE);
+        Ghost clyde = new Ghost(new Position2D(730, 250, 40, 40), Color.ORANGE, true, Entity.Shape.RECTANGLE);
 
 
         // @Julian Conner - FOR THE REST OF THE TEAM
         // Note : If you want the ghost to stop moving so you can try out the new colored paths
         //        comment out this next line of code
-        testGhost.setGhostMovementStrategy( new DirectlyToPacmanStrategy(testGhost));
+        blinky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(blinky));
+        pinky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(pinky));
+        inky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(inky));
+        clyde.setGhostMovementStrategy( new DirectlyToPacmanStrategy(clyde));
 
+        // initializing the ArrayList "entities"...
         entities = new ArrayList<>();
-        entities.add(new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(20, 650, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(1150, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(20, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.addAll( Path.getAllPathEntities(testPaths));
-        entities.add( testGhost);
+        // ...and adding Wall objects to entities
+        entities.add(new Wall(new Position2D(20, 20, 1150, 20)));
+        entities.add(new Wall(new Position2D(20, 650, 1150, 20)));
+        entities.add(new Wall(new Position2D(1150, 20, 20, 650)));
+        entities.add(new Wall(new Position2D(20, 20, 20, 650)));
 
-        player = new Pacman(new Position2D(100,100,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
+        entities.add(new Wall(new Position2D(170,170,20,370)));
+        entities.add(new Wall(new Position2D(1005,170,20,370)));
+
+        entities.add(new Wall(new Position2D(310,170,580,20)));
+        entities.add(new Wall(new Position2D(310,520,580,20)));
+
+        entities.add(new Wall(new Position2D(310,310,20,220)));
+        entities.add(new Wall(new Position2D(870,310,20,220)));
+
+        entities.add(new Wall(new Position2D(440,310,20,110)));
+        entities.add(new Wall(new Position2D(740,310,20,110)));
+
+        entities.add(new Wall(new Position2D(440,400,300,20)));
+
+        // adding all testPaths to entities
+
+
+        //entities.addAll( Path.getAllPathEntities(testPaths));
+
+
+        // and adding ghost
+        entities.add(blinky);
+        entities.add(pinky);
+        entities.add(inky);
+        entities.add(clyde);
+
+        // initializing the new Pacman object "player" and assigning its position, color, and shape
+        player = new Pacman(new Position2D(570,440,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
+        // adding Pacman to entities ArrayList and initializing the PlayerController object to player (pacman)
         entities.add(player);
         pc = new PlayerController(player);
+        // run the game
         paused = false;
+
+
+        entities.add(new Coin(new Position2D(100,100,20,20)));
+        entities.add(new Coin(new Position2D(180,100,20,20)));
+        entities.add(new Coin(new Position2D(260,100,20,20)));
+        entities.add(new Coin(new Position2D(340,100,20,20)));
+        entities.add(new Coin(new Position2D(420,100,20,20)));
+        entities.add(new Coin(new Position2D(500,100,20,20)));
+        entities.add(new Coin(new Position2D(580,100,20,20)));
+        entities.add(new Coin(new Position2D(660,100,20,20)));
+        entities.add(new Coin(new Position2D(740,100,20,20)));
+        entities.add(new Coin(new Position2D(820,100,20,20)));
+        entities.add(new Coin(new Position2D(900,100,20,20)));
+        entities.add(new Coin(new Position2D(980,100,20,20)));
+        entities.add(new Coin(new Position2D(1060,100,20,20)));
+        entities.add(new Coin(new Position2D(100,580,20,20)));
+        entities.add(new Coin(new Position2D(180,580,20,20)));
+        entities.add(new Coin(new Position2D(260,580,20,20)));
+        entities.add(new Coin(new Position2D(340,580,20,20)));
+        entities.add(new Coin(new Position2D(420,580,20,20)));
+        entities.add(new Coin(new Position2D(500,580,20,20)));
+        entities.add(new Coin(new Position2D(580,580,20,20)));
+        entities.add(new Coin(new Position2D(660,580,20,20)));
+        entities.add(new Coin(new Position2D(740,580,20,20)));
+        entities.add(new Coin(new Position2D(820,580,20,20)));
+        entities.add(new Coin(new Position2D(900,580,20,20)));
+        entities.add(new Coin(new Position2D(980,580,20,20)));
+        entities.add(new Coin(new Position2D(1060,580,20,20)));
+        entities.add(new Coin(new Position2D(100,180,20,20)));
+        entities.add(new Coin(new Position2D(100,260,20,20)));
+        entities.add(new Coin(new Position2D(100,340,20,20)));
+        entities.add(new Coin(new Position2D(100,420,20,20)));
+        entities.add(new Coin(new Position2D(100,500,20,20)));
+        entities.add(new Coin(new Position2D(1060,180,20,20)));
+        entities.add(new Coin(new Position2D(1060,260,20,20)));
+        entities.add(new Coin(new Position2D(1060,340,20,20)));
+        entities.add(new Coin(new Position2D(1060,420,20,20)));
+        entities.add(new Coin(new Position2D(1060,500,20,20)));
+        entities.add(new Coin(new Position2D(240,180,20,20)));
+        entities.add(new Coin(new Position2D(240,260,20,20)));
+        entities.add(new Coin(new Position2D(240,340,20,20)));
+        entities.add(new Coin(new Position2D(240,420,20,20)));
+        entities.add(new Coin(new Position2D(240,500,20,20)));
+        entities.add(new Coin(new Position2D(940,180,20,20)));
+        entities.add(new Coin(new Position2D(940,260,20,20)));
+        entities.add(new Coin(new Position2D(940,340,20,20)));
+        entities.add(new Coin(new Position2D(940,420,20,20)));
+        entities.add(new Coin(new Position2D(940,500,20,20)));
+        entities.add(new Coin(new Position2D(310,240,20,20)));
+        entities.add(new Coin(new Position2D(390,240,20,20)));
+        entities.add(new Coin(new Position2D(470,240,20,20)));
+        entities.add(new Coin(new Position2D(550,240,20,20)));
+        entities.add(new Coin(new Position2D(630,240,20,20)));
+        entities.add(new Coin(new Position2D(710,240,20,20)));
+        entities.add(new Coin(new Position2D(790,240,20,20)));
+        entities.add(new Coin(new Position2D(870,240,20,20)));
+        entities.add(new Coin(new Position2D(375,300,20,20)));
+        entities.add(new Coin(new Position2D(375,380,20,20)));
+        entities.add(new Coin(new Position2D(375,460,20,20)));
+        entities.add(new Coin(new Position2D(805,300,20,20)));
+        entities.add(new Coin(new Position2D(805,380,20,20)));
+        entities.add(new Coin(new Position2D(805,460,20,20)));
+        entities.add(new Coin(new Position2D(725,460,20,20)));
+        entities.add(new Coin(new Position2D(645,460,20,20)));
+        entities.add(new Coin(new Position2D(455,460,20,20)));
+        entities.add(new Coin(new Position2D(535,460,20,20)));
+
+        entities.add(new Cherry(new Position2D(582,230,35,35)));
 
     }
 
@@ -108,12 +215,18 @@ public class SystemManager
                                     break;
                                 case "Ghost":
                                     System.out.println("GAME OVER");
+                                    message = "GAME OVER";
                                     return;
                                 case "Cherry":
-                                    //todo
+                                    System.out.println("CHERRY");
+                                    entities.remove(collision.getCollidedEntity());
+                                    score += 300;
+                                    cherries ++;
                                     break;
                                 case "Coin":
-                                    //todo
+                                    System.out.println("COIN");
+                                    entities.remove(collision.getCollidedEntity());
+                                    score += 100;
                                     break;
                                 default:
                                     throw new RuntimeException("Bad collision from " + collision.getSourceEntityType()

@@ -282,7 +282,7 @@ public class Path extends Entity{
         int wallY = getPosition().getYPositionEnd();
         int wallX = getPosition().getXPosition();
 
-        walls.add( new Wall( new Position2D( wallX , wallY , width , height), Color.BLUE , false, Shape.RECTANGLE));
+        walls.add( new Wall( new Position2D( wallX , wallY , width , height)));
     }
 
 
@@ -314,8 +314,8 @@ public class Path extends Entity{
         int wallY = getPosition().getYPosition();
         int wallX = getPosition().getXPosition() - width;
 
-        new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE);
-        walls.add( new Wall( new Position2D( wallX , wallY , width , height), Color.BLUE , false, Shape.RECTANGLE));
+        new Wall(new Position2D(20, 20, 1150, 20));
+        walls.add( new Wall( new Position2D( wallX , wallY , width , height)));
     }
 
     /**
@@ -346,8 +346,8 @@ public class Path extends Entity{
         int wallY = getPosition().getYPosition();
         int wallX = getPosition().getXPosition() + position.getWidth();
 
-        new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE);
-        walls.add( new Wall( new Position2D( wallX , wallY , width , height), Color.BLUE , false, Shape.RECTANGLE));
+        new Wall(new Position2D(20, 20, 1150, 20));
+        walls.add( new Wall( new Position2D( wallX , wallY , width , height)));
     }
 
     /**
@@ -377,7 +377,7 @@ public class Path extends Entity{
         int wallY = getPosition().getYPosition() - height;
         int wallX = getPosition().getXPosition();
 
-        walls.add( new Wall( new Position2D( wallX , wallY , width , height), Color.BLUE , false, Shape.RECTANGLE));
+        walls.add( new Wall( new Position2D( wallX , wallY , width , height)));
     }
 
 
