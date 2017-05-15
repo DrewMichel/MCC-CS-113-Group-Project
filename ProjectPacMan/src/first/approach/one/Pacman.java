@@ -1,6 +1,8 @@
 package first.approach.one;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.HashMap;
 
 /**
  *
@@ -15,9 +17,17 @@ import java.awt.*;
  */
 public class Pacman extends Entity
 {
+    private HashMap<Boolean, Integer> pacState;
+
     public Pacman()
     {
         this(new Position2D(), Color.YELLOW, true, Shape.CIRCLE);
+
+        this.setDirection(Direction.SOUTH);
+
+        pacState = new HashMap<Boolean, Integer> ();
+
+        pacState.put(true, 0);
     }
 
     /**
@@ -32,6 +42,10 @@ public class Pacman extends Entity
         super(pos, color, canMove, shape);
 
         this.setDirection(Direction.SOUTH);
+
+        pacState = new HashMap<Boolean, Integer> ();
+
+        pacState.put(true, 0);
     }
 
     // Allows easy removal of Pacman regardless of instance variables
@@ -90,9 +104,48 @@ public class Pacman extends Entity
     {
         super.paintEntity(g);
 
-        g.setColor(Color.BLACK);
+        if(pacState.containsKey(true))
+        {
+            g.setColor(Color.BLACK);
 
-        g.fillArc(this.getPosition().getXPosition() + (int) (this.getPosition().getWidth() * .30), this.getPosition().getYPosition() + 12,(int) (this.getPosition().getWidth() * .70),(int) (this.getPosition().getHeight() * .70), -190, 180);
+            g.fillArc(this.getPosition().getXPosition() + (int) (this.getPosition().getWidth() * .30), this.getPosition().getYPosition() + 12,(int) (this.getPosition().getWidth() * .70),(int) (this.getPosition().getHeight() * .70), -190, pacState.get(true));
+
+            if(pacState.get(true) >= 220)
+            {
+                Integer temp = pacState.get(true);
+
+                pacState.remove(true);
+
+                pacState.put(false, temp);
+            }
+            else
+            {
+                pacState.put(true, pacState.get(true) + 10);
+            }
+
+
+        }
+        else if(pacState.containsKey(false))
+        {
+            if(pacState.get(false) <= 40)
+            {
+                Integer temp = pacState.get(false);
+
+                pacState.remove(false);
+
+                pacState.put(true, temp);
+            }
+            else
+            {
+                pacState.put(false, pacState.get(false) - 10);
+
+                g.fillArc(this.getPosition().getXPosition() + (int) (this.getPosition().getWidth() * .30), this.getPosition().getYPosition() + 12,(int) (this.getPosition().getWidth() * .70),(int) (this.getPosition().getHeight() * .70), -190, pacState.get(false));
+
+            }
+        }
+
+
+
 
         return true;
     }
