@@ -9,320 +9,6 @@ import java.util.*;
  */
 public class Helper {
 
-    public static final String SOURCE_LOCATION = "ProjectPacMan\\src\\first\\approach\\one\\";
-
-    /**
-     * Reads vertex info input and writes the graph implementation to a file for ease
-     * @param fileName the name of the output file
-     */
-    public static void readGraphVertices( String fileName )
-    {
-        PrintWriter writer;
-        Scanner key;
-        FileOutputStream outStream;
-        FileInputStream inStream ;
-        Scanner reader ;
-        File file;
-        boolean finished ;
-        String input ;
-        ArrayList<Integer> coordinates ;
-        String fileOutput ;
-        int x1 , y1 , x2, y2, count , index, coordinate;
-        coordinates = new ArrayList<>();
-        file = new File( fileName);
-        key = new Scanner( System.in);
-        fileOutput = "";
-        count = 0;
-
-        try
-        {
-            // Creates a new file if the file doesn't exist
-
-
-
-            reader = new Scanner( new FileInputStream( file ));
-            writer = new PrintWriter( new FileOutputStream( new File(SOURCE_LOCATION + "TestVertices.txt" ),
-                    true));
-            count = 0;
-            String line;
-            StringTokenizer tokenizer ;
-            count = 0;
-            System.out.println("Reading file...");
-            writer.println();
-            writer.println("Next Append:");
-
-            while( reader.hasNextLine())
-            {
-                line = reader.nextLine();
-                tokenizer = new StringTokenizer(line," 0123456789");
-                String[] split = line.split(" ");
-
-
-                if( tokenizer.countTokens() == 1)
-                {
-                    String output = "";
-                    writer.println( String.format("Path path%d = createPath( new Vertex( %d, %d ), Color.WHITE );", count,
-                    Integer.parseInt(split[0]), Integer.parseInt(split[1]) ) );
-
-                    if( split[2].contains("l"))
-                    {
-                        writer.println("path" + count + ".createLeftWall();");
-                    }
-                    else if( split[2].contains("r"))
-                    {
-                        writer.println("path" + count + ".createRightWall();");
-                    }
-                    if( split[2].contains("b"))
-                    {
-                        writer.println("path" + count + ".createBottomWall();");
-                    }
-                    if( split[2].contains("t"))
-                    {
-                        writer.println("path" + count + ".createTopWall();");
-                    }
-
-                    writer.println("mazePaths.add( path" + count + " );" );
-                    count++;
-
-                }
-
-                if( split.length == 4)
-                {
-                    writer.println( String.format("Path path%d = createPath( new Vertex( %d, %d ), new Vertex( %d , %d ), Color.WHITE );",
-                            count, Integer.parseInt(split[0]), Integer.parseInt(split[1]),
-                            Integer.parseInt(split[2]), Integer.parseInt(split[3] )) );
-                    writer.println("mazePaths.add( path" + count + " );" );
-
-                    count++;
-
-
-                }
-                //coordinates.addAll( readInt( reader.nextLine()));
-            }
-
-            System.out.println( "Before writing : Count = " + count );
-            /*for( int i = 0 ; i < count / 4 ; i++)
-            {
-                index = 4 * i;
-                x1 = coordinates.get( index);
-                y1 = coordinates.get(index + 1 );
-                x2 = coordinates.get(index + 2);
-                y2 = coordinates.get(index + 3);
-
-                System.out.println( "i : " + i);
-                //writer.println(String.format(" createPath( new Vertex( %d, %d ) , new Vertex(%d, %d ) )" +
-            }
-*/
-            writer.close();
-            reader.close();
-        }
-
-        catch (FileNotFoundException e) {
-            System.out.println( "ERROR : File \"" + fileName + "\" not found.");
-            System.out.println( e.getMessage());
-            e.printStackTrace();
-
-        }
-
-        catch (IOException g)
-        {
-            System.out.println( "ERROR : Unknown problem.");
-            System.out.println( g.getMessage());
-        }
-
-        key.close();
-
-
-    }
-
-    /**
-     * Reads vertex info input and writes the graph implementation to a file for ease
-     * @param fileName the name of the output file
-     */
-    public static void writeGraphVertices( String fileName )
-    {
-        PrintWriter writer;
-        Scanner key;
-        FileOutputStream outStream;
-        FileInputStream inStream ;
-        Scanner reader ;
-        File file;
-        boolean finished ;
-        String input ;
-        ArrayList<Integer> coordinates ;
-        String fileOutput ;
-        int x1 , y1 , x2, y2, count , index;
-
-        coordinates = new ArrayList<>();
-        file = new File( fileName);
-        key = new Scanner( System.in);
-        fileOutput = "";
-        count = 0;
-        try
-        {
-            // Creates a new file if the file doesn't exist
-            if( !file.exists() )
-            {
-                file.createNewFile();
-            }
-
-
-            writer = new PrintWriter( new FileOutputStream( file , true));
-
-            do
-            {
-                coordinates.addAll(
-                        readInt( "Enter the edge coordinates with spaces in between : ", 4 , key));
-
-                finished = askIfDone("Are you done : ", key);
-                System.out.println("\n");
-
-                count++;
-
-            }while( !finished);
-
-            for( int i = 0 ; i < count ; i++)
-            {
-                index = 4 * i;
-                x1 = coordinates.get( index);
-                y1 = coordinates.get(index + 1 );
-                x2 = coordinates.get(index + 2);
-                y2 = coordinates.get(index + 3);
-
-                System.out.println( "i : " + i);
-                writer.append(String.format("addEdge( %d, %d , %d, %d );%n",
-                        x1 , y1 , x2 , y2) );
-            }
-
-            writer.close();
-        }
-
-        catch (FileNotFoundException e) {
-            System.out.println( "ERROR : File \"" + fileName + "\" not found.");
-            System.out.println( e.getMessage());
-            e.printStackTrace();
-
-        }
-
-        catch (IOException g)
-        {
-            System.out.println( "ERROR : Unknown problem.");
-            System.out.println( g.getMessage());
-        }
-
-        key.close();
-
-
-    }
-
-    public static boolean askIfDone( String prompt , Scanner key)
-    {
-        String input ;
-        String[] inputSplit;
-        ArrayList<Integer> list = new ArrayList<>();
-        boolean validInput ;
-        boolean isDone ;
-        int num;
-
-        do
-        {
-            validInput = true;
-
-
-            System.out.println( prompt);
-            input = key.nextLine();
-
-            isDone = input.equalsIgnoreCase("Yes") || input.equalsIgnoreCase("Y");
-
-
-
-        }while( !validInput);
-
-        return isDone;
-
-    }
-
-    public static ArrayList<Integer> readInt( String prompt , int amount , Scanner key)
-    {
-        String input ;
-        String[] inputSplit;
-        ArrayList<Integer> list = new ArrayList<>();
-        boolean validInput ;
-        int num;
-
-        do
-        {
-            validInput = false;
-
-            try
-            {
-                System.out.println( prompt);
-                input = key.nextLine();
-
-                inputSplit = input.split(" ");
-
-                for ( String inputs : inputSplit)
-                {
-                    num = Integer.parseInt( inputs);
-                    list.add(num);
-                }
-
-                validInput = list.size() == amount ;
-
-            }
-
-            catch( NumberFormatException e)
-            {
-                System.out.println("ERROR : Invalid number entered, only integers allowed");
-                list.clear();
-
-            }
-
-        }while( !validInput);
-
-        return list;
-
-    }
-
-    /**
-     * Breaks apart a String into ints
-     * @param fileLine
-     * @return
-     */
-    public static ArrayList<Integer> readInt( String fileLine)
-    {
-        String input ;
-        String[] inputSplit;
-        ArrayList<Integer> list = new ArrayList<>();
-        boolean validInput ;
-        int num ;
-
-        try
-        {
-
-
-            inputSplit = fileLine.split(" ");
-
-            for ( String inputs : inputSplit)
-            {
-                num = Integer.parseInt( inputs);
-                list.add(num);
-            }
-
-
-        }
-
-        catch( NumberFormatException e)
-        {
-            System.out.println("ERROR : Invalid number entered, only integers allowed");
-            list.clear();
-
-        }
-
-        return list;
-
-    }
-
     /**
      * Negates a boolean array
      * @param array the array to negate
@@ -424,10 +110,10 @@ public class Helper {
     }
 
     /**
-     * Casts a generic number to the appropiate type for use
-     * @param number
-     * @param <T>
-     * @return
+     * Casts a generic number to the appropriate type for use
+     * @param number the number that casted
+     * @param <T> generic that extends Number and Comparable
+     * @return castedNum type T
      */
     public static <T extends Number & Comparable<T> > T castGenericNumber( T number)
     {
@@ -442,20 +128,16 @@ public class Helper {
         {
 
             castedNum = (T) new Float(number.floatValue());
-
-
         }
 
         else if ( number instanceof Integer)
         {
             castedNum = (T) new Integer(number.intValue());
-
         }
 
         else if ( number instanceof Long)
         {
             castedNum = (T) new Long(number.longValue());
-
         }
 
         else
@@ -467,10 +149,10 @@ public class Helper {
     }
     /**
      * Casts a generic number to the appropiate type for use
-     * @param number
-     * @param <G>
-     * @param <T>
-     * @return
+     * @param number the number that is casted
+     * @param <G> generic type that extends Number and Comparable
+     * @param <T> generic type that extends Number and Comparable
+     * @return castedNum type T generic
      */
     public static < H extends Number & Comparable ,G extends Number & Comparable<H>, T extends Number & Comparable<H> > T castGenericNumber( T type, G number)
     {
@@ -523,8 +205,8 @@ public class Helper {
     /**
      * Finds the smallest number from an array of numbers
      * @param absoulteValue determines if ignoring the signs of the numbers
-     * @param nums
-     * @param <T>
+     * @param nums type T generic ... numbers that has the smallest value found
+     * @param <T> generic that extends Number and Comparable
      * @return Type T that is that smallest of the numbers
      */
     public static < T extends Number & Comparable<T>> T findSmallest( boolean absoulteValue,  T ...nums)
@@ -551,7 +233,6 @@ public class Helper {
             {
                 smallestCompare = smallest;
             }
-            
 
         }
         else
@@ -567,7 +248,6 @@ public class Helper {
             {
                 // Get the positive version of the current number
                 current = castGenericNumber( nums[i] ,  (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
             }
             
@@ -587,7 +267,6 @@ public class Helper {
 
                     smallestCompare = castGenericNumber( nums[i] ,
                             (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
                 }
 
@@ -614,9 +293,9 @@ public class Helper {
     }
     /**
      * Finds the biggest number from an array of numbers
-     * @param nums
-     * @param <T>
-     * @return Type T that is that largest of the numbers
+     * @param nums type T ... parameter that has its largest value found
+     * @param <T> generic that extends Number and Comparable
+     * @return largest Type T that is that largest of the numbers
      */
     public static <T extends Number & Comparable<T>> T findBiggest( boolean absoulteValue,  T ...nums)
     {
@@ -632,17 +311,14 @@ public class Helper {
             // If ignoring the number's signs
             if( absoulteValue)
             {
-
                 // Store the first comparasion value with the first number's positive value
                 largestCompare = castGenericNumber( nums[0] ,  (T) castGenericNumber(Math.abs( nums[0].doubleValue() ) ));
-
             }
 
             else
             {
                 largestCompare = largest;
             }
-
 
         }
         else
@@ -658,7 +334,6 @@ public class Helper {
             {
                 // Get the positive version of the current number
                 current = castGenericNumber( nums[i] ,  (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
             }
 
@@ -678,7 +353,6 @@ public class Helper {
 
                     largestCompare = castGenericNumber( nums[i] ,
                             (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
                 }
 

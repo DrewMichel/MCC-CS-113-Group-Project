@@ -18,10 +18,15 @@ public class Wall extends Entity
 {
     private String side = "Unknown";
     private Path path ;
-	public Wall(Position2D position, Color color, boolean canMove, Shape shape)
-    {
-    	super(position, color, canMove, shape);
-    }
+
+    /**
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     */
+    public Wall(Position2D position)
+        {
+            super(position, Color.BLUE, false, Shape.RECTANGLE);
+        }
 
     public void setSide( String side)
     {
@@ -53,4 +58,5 @@ public class Wall extends Entity
         }
         return "Path : " + pathString + "\nSide : " + side + "\nPosition : " + getPosition();
     }
+
 }

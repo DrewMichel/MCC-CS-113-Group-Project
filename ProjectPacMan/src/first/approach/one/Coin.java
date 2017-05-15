@@ -3,7 +3,7 @@ package first.approach.one;
 import java.awt.Color;
 
 /**
- * Created by Andrew Michel,
+ * Created by Zach Pownell
  *
  * on 4/24/2017
  *
@@ -15,8 +15,8 @@ import java.awt.Color;
  */
 public class Coin extends Entity
 {
-    public Coin()
+    public Coin(Position2D position)
     {
-        super(new Position2D(), Color.ORANGE, false, Shape.CIRCLE);
+        super(position, Color.YELLOW, false, Shape.CIRCLE);
     }
 }

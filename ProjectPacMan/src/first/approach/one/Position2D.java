@@ -23,9 +23,15 @@ public class Position2D
     
     private int width;
     private int height;
-    
 
-    
+
+    /**
+     *
+     * @param x integer that specifies a 2D X coordinate
+     * @param y integer that specifies a 2D Y coordinate
+     * @param w integer that specifies a 2D width
+     * @param h integer that specifies a 2D height
+     */
     public Position2D(int x, int y, int w, int h)
     {
         xPosition = x;
@@ -39,6 +45,10 @@ public class Position2D
         this(0,0,0,0);
     }
 
+    /**
+     *
+     * @param pos Position2D object that is used to initialize this object's instance variables
+     */
     public Position2D(Position2D pos)
     {
         this(pos.xPosition, pos.yPosition, pos.width, pos.height);
@@ -309,11 +319,20 @@ public class Position2D
         return distance;
     }
 
+    /**
+     *
+     * @return String containing the instance variables of this object
+     */
     public String toString()
     {
         return "2DPOSITION -> X: " + xPosition + " Y: " + yPosition + " Width: " + width + " Height: " + height;
     }
-    
+
+    /**
+     *
+     * @param other Object that is compared against this object
+     * @return true if equal, else false
+     */
     @Override
     public boolean equals(Object other)
     {
@@ -388,6 +407,13 @@ public class Position2D
 
         return y >= yStart && y <= yEnd ;
     }
+
+    /**
+     *
+     * @param otherPos Position2D object that is checked against this object
+     * @return true if the 2D coordinates with width and height taken into
+     *         consideration overlap, else false
+     */
     public boolean overlaps(Position2D otherPos) {
         boolean xStartOverlap = (getXPosition() >= otherPos.getXPosition() && getXPosition() <= otherPos.getXPositionEnd());
         boolean xMiddleOverlap = (getXPosition() <= otherPos.getXPosition() && getXPositionEnd() >= otherPos.getXPositionEnd());

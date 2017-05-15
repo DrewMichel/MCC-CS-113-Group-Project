@@ -20,6 +20,13 @@ public class Pacman extends Entity
         this(new Position2D(), Color.YELLOW, true, Shape.CIRCLE);
     }
 
+    /**
+     *
+     * @param pos Position2D object that is used to set this entity's world position
+     * @param color Color object that is used to draw this entity as that color
+     * @param canMove boolean that determines whether this entity can move or not
+     * @param shape Shape enum within the Entity class that is used to draw this entity's shape
+     */
     public Pacman(Position2D pos, Color color, boolean canMove, Shape shape)
     {
         super(pos, color, canMove, shape);
@@ -28,6 +35,12 @@ public class Pacman extends Entity
     }
 
     // Allows easy removal of Pacman regardless of instance variables
+
+    /**
+     *
+     * @param other Object that is compared against this object
+     * @return true if equal, else false
+     */
     @Override
     public boolean equals(Object other)
     {
@@ -44,6 +57,10 @@ public class Pacman extends Entity
         return true;
     }
 
+    /**
+     *
+     * @return true if move is successful, else false
+     */
     @Override
     public boolean attemptMove()
     {
@@ -63,6 +80,11 @@ public class Pacman extends Entity
         }
     }
 
+    /**
+     *
+     * @param g Graphics object that is used to paint this entity
+     * @return true if paint was successful
+     */
     @Override
     public boolean paintEntity(Graphics g)
     {
