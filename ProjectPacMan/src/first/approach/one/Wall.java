@@ -17,6 +17,10 @@ import java.awt.Color;
 public class Wall extends Entity
 {
 
+    /**
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     */
     public Wall(Position2D position)
         {
             super(position, Color.BLUE, false, Shape.RECTANGLE);

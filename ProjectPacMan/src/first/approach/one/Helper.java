@@ -6,12 +6,11 @@ package first.approach.one;
  */
 public class Helper {
 
-
     /**
-     * Casts a generic number to the appropiate type for use
-     * @param number
-     * @param <T>
-     * @return
+     * Casts a generic number to the appropriate type for use
+     * @param number the number that casted
+     * @param <T> generic that extends Number and Comparable
+     * @return castedNum type T
      */
     public static <T extends Number & Comparable<T> > T castGenericNumber( T number)
     {
@@ -26,20 +25,16 @@ public class Helper {
         {
 
             castedNum = (T) new Float(number.floatValue());
-
-
         }
 
         else if ( number instanceof Integer)
         {
             castedNum = (T) new Integer(number.intValue());
-
         }
 
         else if ( number instanceof Long)
         {
             castedNum = (T) new Long(number.longValue());
-
         }
 
         else
@@ -51,10 +46,10 @@ public class Helper {
     }
     /**
      * Casts a generic number to the appropiate type for use
-     * @param number
-     * @param <G>
-     * @param <T>
-     * @return
+     * @param number the number that is casted
+     * @param <G> generic type that extends Number and Comparable
+     * @param <T> generic type that extends Number and Comparable
+     * @return castedNum type T generic
      */
     public static < H extends Number & Comparable ,G extends Number & Comparable<H>, T extends Number & Comparable<H> > T castGenericNumber( T type, G number)
     {
@@ -96,8 +91,8 @@ public class Helper {
     /**
      * Finds the biggest number from an array of numbers
      * @param absoulteValue determines if ignoring the signs of the numbers
-     * @param nums
-     * @param <T>
+     * @param nums type T generic ... numbers that has the smallest value found
+     * @param <T> generic that extends Number and Comparable
      * @return Type T that is that smallest of the numbers
      */
     public static < T extends Number & Comparable<T>> T findSmallest( boolean absoulteValue,  T ...nums)
@@ -124,7 +119,6 @@ public class Helper {
             {
                 smallestCompare = smallest;
             }
-            
 
         }
         else
@@ -140,7 +134,6 @@ public class Helper {
             {
                 // Get the positive version of the current number
                 current = castGenericNumber( nums[i] ,  (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
             }
             
@@ -161,7 +154,6 @@ public class Helper {
                     smallestCompare = castGenericNumber( nums[i] ,
                             (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
 
-
                 }
 
                 else
@@ -176,9 +168,9 @@ public class Helper {
 
     /**
      * Finds the biggest number from an array of numbers
-     * @param nums
-     * @param <T>
-     * @return Type T that is that largest of the numbers
+     * @param nums type T ... parameter that has its largest value found
+     * @param <T> generic that extends Number and Comparable
+     * @return largest Type T that is that largest of the numbers
      */
     public static <T extends Number & Comparable<T>> T findBiggest( boolean absoulteValue,  T ...nums)
     {
@@ -194,17 +186,14 @@ public class Helper {
             // If ignoring the number's signs
             if( absoulteValue)
             {
-
                 // Store the first comparasion value with the first number's positive value
                 largestCompare = castGenericNumber( nums[0] ,  (T) castGenericNumber(Math.abs( nums[0].doubleValue() ) ));
-
             }
 
             else
             {
                 largestCompare = largest;
             }
-
 
         }
         else
@@ -220,7 +209,6 @@ public class Helper {
             {
                 // Get the positive version of the current number
                 current = castGenericNumber( nums[i] ,  (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
             }
 
@@ -240,7 +228,6 @@ public class Helper {
 
                     largestCompare = castGenericNumber( nums[i] ,
                             (T) castGenericNumber(Math.abs( nums[i].doubleValue() ) ));
-
 
                 }
 

@@ -13,6 +13,10 @@ import java.awt.Color;
  */
 public class Cherry extends Entity
 {
+    /**
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     */
     public Cherry(Position2D position)
     {
         super(position, Color.RED, false, Shape.CIRCLE);

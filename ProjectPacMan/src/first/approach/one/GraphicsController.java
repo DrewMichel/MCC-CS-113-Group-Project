@@ -84,11 +84,19 @@ public class GraphicsController extends JFrame
         setVisible(true);
     }
 
+    /**
+     *
+     * @return manager SystemManager object
+     */
     public SystemManager getManager()
     {
         return manager;
     }
 
+    /**
+     *
+     * @param g Graphics object that is used to paint this object
+     */
     public void paint(Graphics g)
     {
         super.paint(g);
@@ -98,15 +106,24 @@ public class GraphicsController extends JFrame
         //g.fillRect(0,0,DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
+    // Private class start
     private class ThreadPainter extends Thread
     {
         private JFrame frame;
 
+        /**
+         *
+         * @param frame JFrame object that will be redrawn within the run method
+         */
         public ThreadPainter(JFrame frame)
         {
             this.frame = frame;
         }
 
+        /**
+         * Iterates over instance variable frame and calls its revalidate and repaint method
+         * using a sleep before the next iteration occurs
+         */
         @Override
         public void run()
         {
@@ -129,7 +146,7 @@ public class GraphicsController extends JFrame
                 }
             }
         }
-    }
+    } // Private class end
 
     /*
     private class ThreadDrawer implements Runnable

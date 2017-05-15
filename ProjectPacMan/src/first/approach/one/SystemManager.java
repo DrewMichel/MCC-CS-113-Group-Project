@@ -1,6 +1,5 @@
 package first.approach.one;
 
-import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +42,10 @@ public class SystemManager
     public static int cherries = 0;
     public static String message = "";
 
+    /**
+     * Default constructor
+     * Initializes the entities within the game
+     */
     public SystemManager() {
 
         // @Julian Conner - FOR THE REST OF THE TEAM
@@ -176,10 +179,11 @@ public class SystemManager
     }
 
 
-
+    /**
+     * Begins the game
+     */
     public void initialize()
     {
-
         String sourceEntityType  , collidedEntityType;
         // Lets the Ghosts always know where PacMan is
         Ghost.setPacman( player);
@@ -259,23 +263,30 @@ public class SystemManager
 
     }
 
-
+    // Getter
     public PlayerController getPlayerController()
     {
         return pc;
     }
 
+    /**
+     *
+     * @param entities ArrayList of Entity that is used to set instance variable entities
+     * @return true
+     */
     public boolean setEntities(ArrayList<Entity> entities)
     {
         this.entities = entities;
         return true;
     }
 
+    // Getter
     public boolean isPaused()
     {
         return paused;
     }
 
+    // Getter
     public ArrayList<Entity> getEntities()
     {
         return entities;
@@ -305,6 +316,10 @@ public class SystemManager
         return collisionList;
     }
 
+    /**
+     *
+     * @param time long that is used to set the duration of sleep
+     */
     // Just here to improve code readability by grabbing the try-catch
     public void threadSleep(long time) {
         try {
@@ -315,22 +330,33 @@ public class SystemManager
         }
     }
 
+    // Private class start
     private class PlayerController implements KeyListener
     {
         private Pacman player;
 
-
+        /**
+         *
+         * @param player Pacman object that is assigned to instance variable player
+         */
         public PlayerController(Pacman player)
         {
             this.player = player;
         }
 
+        /**
+         *
+         * @param e KeyEvent that fires when this listener detects a key typed
+         */
         @Override
         public void keyTyped(KeyEvent e)
         {
-
         }
 
+        /**
+         *
+         * @param e KeyEvent that fires when this listener detects a key pressed
+         */
         @Override
         public void keyPressed(KeyEvent e)
         {
@@ -359,10 +385,13 @@ public class SystemManager
                     + ", Player heading: " + player.getDirection());
         }
 
+        /**
+         *
+         * @param e KeyEvent that fires when this listener detects a key released
+         */
         @Override
         public void keyReleased(KeyEvent e)
         {
-
         }
 
 
@@ -390,5 +419,5 @@ public class SystemManager
             }
         }
         */
-    }
+    } // Private class end
 }

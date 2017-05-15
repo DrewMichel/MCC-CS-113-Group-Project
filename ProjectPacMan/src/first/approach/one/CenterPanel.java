@@ -23,7 +23,11 @@ public class CenterPanel extends JPanel
 {
     // ArrayList "entities" to store Entity objects
     private ArrayList<Entity> entities;
-    
+
+    /**
+     *
+     * @param entities ArrayList of Entity that is iterated during repaints to draw entities
+     */
     // CenterPanel constructor
     public CenterPanel(ArrayList<Entity> entities)
     {
@@ -31,7 +35,11 @@ public class CenterPanel extends JPanel
         super();
         this.entities = entities;
     }
-    
+
+    /**
+     *
+     * @param g Graphics object that is used to draw elements within the CenterPanel
+     */
     // paintComponent class used to paint the entities onto the panel
     public void paintComponent(Graphics g)
     {
@@ -59,7 +67,7 @@ public class CenterPanel extends JPanel
         g.setColor(Color.WHITE);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
         g.drawString("Project Pacman", 70,665);
-        g.drawString("Created by Andrew, Julien, Zach, Nathan, Jack", 770,665);
+        g.drawString("Created by Andrew, Julian, Zach, Nathan, Jack", 770,665);
         g.drawString("Score: " + SystemManager.score, 380,665);
         g.drawString("Cherries: " + SystemManager.cherries, 520,665);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 32));

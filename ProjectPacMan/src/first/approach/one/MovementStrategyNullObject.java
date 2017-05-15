@@ -13,6 +13,7 @@ public class MovementStrategyNullObject extends GhostMovementStrategy {
 
     /**
      * Constructor for no movement null replacement object
+     * @param ghost Ghost object that is stored into instance variable ghost
      */
     public MovementStrategyNullObject( Ghost ghost)
     {
@@ -22,6 +23,7 @@ public class MovementStrategyNullObject extends GhostMovementStrategy {
 
     /**
      * Default implementation for no movement set strategy object
+     * @return true
      */
     public boolean movementAlgorithm()
     {

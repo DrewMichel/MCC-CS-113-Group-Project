@@ -13,6 +13,10 @@ package first.approach.one;
  */
 public class MainDriver
 {
+    /**
+     * Creates a GraphicsController object and initializes its SystemManager
+     * @param args unused String array
+     */
     public static void main(String[] args)
     {
         GraphicsController gc = new GraphicsController();

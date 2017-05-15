@@ -15,17 +15,16 @@ public class Path extends Entity{
     private int leftWallWidth , rightWallWidth, topWallHeight , bottomWallHeight;
 
     /**
-     * Default constructor for path
-     * @param position
-     * @param color
-     * @param canMove
-     * @param shape
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     * @param color Color object that is used to draw this entity as that color
+     * @param canMove boolean that determines whether this entity can move or not
+     * @param shape Shape enum within the Entity class that is used to draw this entity's shape
      */
     public Path(Position2D position, Color color, boolean canMove, Shape shape)
     {
             super( position, color, canMove, shape);
             walls = new ArrayList<>();
-
     }
 
     /**
@@ -52,7 +51,7 @@ public class Path extends Entity{
 
     /**
      * Testing create a path
-     * @return
+     * @return test Path object used for testing
      */
     public static Path createTestPath()
     {
@@ -65,7 +64,7 @@ public class Path extends Entity{
 
     /**
      * Testing how to create connected paths
-     * @return
+     * @return testPaths List of Path used for testing
      */
     public static List<Path> createTestPaths()
     {
@@ -91,9 +90,6 @@ public class Path extends Entity{
         testPaths.add(testBarrier);
 
         return testPaths;
-
-
-
     }
 
     /**
@@ -105,7 +101,7 @@ public class Path extends Entity{
      * @param y the y position
      * @param width the width
      * @param height the height
-     * @return Path
+     * @return boxedPath Path object
      */
     public static Path createBoxedPath( int x , int y , int width, int height , int wallWidth,
                                         int wallHeight ,Color color)
@@ -119,7 +115,7 @@ public class Path extends Entity{
     /**
      * Gets all the Path objects & their Walls
      * @param paths Path objects wanted
-     * @return ArrayList<Entity> that holds all the Path objects and their Walls
+     * @return entities ArrayList<Entity> that holds all the Path objects and their Walls
      */
     public static ArrayList<Entity> getAllPathEntities( Path ...paths)
     {
@@ -305,8 +301,8 @@ public class Path extends Entity{
     
     /**
      * Creates a Wall that borders that left side of the Path
-     * @param height
-     * @param width
+     * @param height integer that is used for the height of the wall
+     * @param width integer that is used for the width of the wall
      */
     public void createLeftWall(int height , int width)
     {
@@ -337,8 +333,8 @@ public class Path extends Entity{
 
     /**
      * Creates a Wall that borders that right side of the Path
-     * @param height
-     * @param width
+     * @param height integer that is used for the height of the wall
+     * @param width integer that is used for the width of the wall
      */
     public void createRightWall(int height , int width)
     {
@@ -360,7 +356,7 @@ public class Path extends Entity{
 
     /**
      * Creates a Wall that borders a selected amount of the top of the Path
-     * @param width
+     * @param width integer that is used for the width of the wall
      */
     public void createTopWall(int width)
     {
@@ -369,8 +365,8 @@ public class Path extends Entity{
 
     /**
      * Creates a Wall that borders that top of the Path
-     * @param height
-     * @param width
+     * @param height integer that is used for the height of the wall
+     * @param width integer that is used for the width of the wall
      */
     public void createTopWall(int height , int width)
     {
