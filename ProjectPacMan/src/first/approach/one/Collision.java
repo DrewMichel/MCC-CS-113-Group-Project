@@ -12,6 +12,11 @@ public final class Collision {
     private Position2D previousPosition;
     private Position2D Position;
 
+    /**
+     *
+     * @param sourceEntity Entity object that detected a collision
+     * @param collidedEntity Entity object that was detected by the source
+     */
     // Constructor method "Collision" to take in two Entity objects, the source and collided
     public Collision(Entity sourceEntity, Entity collidedEntity) {
         this.sourceEntity = sourceEntity;

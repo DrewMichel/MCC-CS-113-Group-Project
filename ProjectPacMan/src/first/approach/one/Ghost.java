@@ -23,11 +23,22 @@ public class Ghost extends Entity
         this(new Position2D(), Color.CYAN, true, Shape.CIRCLE);
     }
 
+    /**
+     *
+     * @param color Color that is used to set this entity's color
+     */
     public Ghost(Color color)
     {
         this(new Position2D(), color, true, Shape.CIRCLE);
     }
 
+    /**
+     *
+     * @param pos Position2D object that is used to set this entity's world position
+     * @param color Color object that is used to draw this entity as that color
+     * @param canMove boolean that determines whether this entity can move or not
+     * @param shape Shape enum within the Entity class that is used to draw this entity's shape
+     */
     public Ghost(Position2D pos, Color color, boolean canMove, Shape shape)
     {
         super(pos, color, canMove, shape);
@@ -91,7 +102,5 @@ public class Ghost extends Entity
     public boolean attemptMove()
     {
         return ghostMovementStrategy.move();
-
-
     }
 }

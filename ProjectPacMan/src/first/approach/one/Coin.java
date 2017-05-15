@@ -15,6 +15,10 @@ import java.awt.Color;
  */
 public class Coin extends Entity
 {
+    /**
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     */
     public Coin(Position2D position)
     {
         super(position, Color.YELLOW, false, Shape.CIRCLE);
