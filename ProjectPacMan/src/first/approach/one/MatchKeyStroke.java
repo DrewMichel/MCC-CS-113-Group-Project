@@ -15,6 +15,7 @@ public class MatchKeyStroke extends GhostMovementStrategy {
     {
         super( ghost);
     }
+
     /**
      * Implementation of random movement algorithm for Ghost's movement
      *
@@ -30,8 +31,7 @@ public class MatchKeyStroke extends GhostMovementStrategy {
         Entity.Direction keyStroke = pacman.getDirection();
 
         // If Ghost is far away from pacman then match key stroke
-        if( ghost.getPosition().distance(pacman.getPosition()) > 250 )
-        {
+
             switch (keyStroke)
             {
                 case NORTH:
@@ -46,15 +46,5 @@ public class MatchKeyStroke extends GhostMovementStrategy {
                     return false;
             }
 
-        }
-
-        // If Ghost is close to Pacman then go directly to him
-        else
-        {
-            ghost.setGhostMovementStrategy( new DirectlyToPacmanStrategy(ghost));
-            ghost.attemptMove();
-            ghost.setGhostMovementStrategy(this);
-        }
-        return true;
     }
 }

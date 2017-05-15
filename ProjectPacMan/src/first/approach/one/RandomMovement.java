@@ -54,22 +54,17 @@ public class RandomMovement extends GhostMovementStrategy {
         ghostX = ghost.getPosition().getXPosition();
         ghostY = ghost.getPosition().getYPosition();
 
-        if ( startTime == 0 )
-        {
-            startTime = System.currentTimeMillis();
-        }
-
         secondsMoved = ( System.currentTimeMillis() - startTime ) /  1000.0 ;
 
         // If time to switch up the Ghost's movement
-        if( secondsMoved > SWITCH_UP_TIME)
+        if( startTime == 0  || secondsMoved > SWITCH_UP_TIME)
         {
             // Sets the random chance the Ghost will teleport
             chance = random.nextInt( 100001);
             mod =random.nextInt(11) + 1;
 
             // If the Ghost will randomly teleport
-            if( chance  < 50 )
+            if( startTime != 0 && chance  < 50 )
             {
                 newX = random.nextInt( 1110) + 20;
                 newY = random.nextInt( 650) + 20;
@@ -103,6 +98,7 @@ public class RandomMovement extends GhostMovementStrategy {
                 else
                 {
                     chance = random.nextInt(1000);
+
                     if( chance % 2 == 0)
                     {
                         yChange = 1;

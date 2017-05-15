@@ -58,7 +58,7 @@ public class SystemManager
         blinky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(blinky));
         pinky.setGhostMovementStrategy( new RandomMovement(pinky));
         inky.setGhostMovementStrategy( new MatchKeyStroke(inky));
-        clyde.setGhostMovementStrategy( new DirectlyToPacmanStrategy(clyde));
+        clyde.setGhostMovementStrategy( new AllMovements(clyde));
 
         // initializing the ArrayList "entities"...
         entities = new ArrayList<>();

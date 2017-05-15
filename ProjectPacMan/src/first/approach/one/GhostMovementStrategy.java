@@ -8,13 +8,19 @@ package first.approach.one;
 public abstract class GhostMovementStrategy {
 
     protected Ghost ghost;
+    protected double closeDistance;
     protected boolean hasMovement = true ;
     private Position2D previousPosition ;
 
 
+    /**
+     * Abstract constructor
+     * @param ghost
+     */
     public GhostMovementStrategy( Ghost ghost)
     {
         this.ghost = ghost;
+        this.closeDistance = 250;
     }
     /**
      * Sets whether the Ghost object can currently move
@@ -80,6 +86,31 @@ public abstract class GhostMovementStrategy {
         return ghost.setPreviousPosition( previousPosition );
     }
 
+
+    /**
+     * Sets the distance that makes Pacman close to the Ghost
+     * @param closeDistance
+     */
+    protected final void setCloseDistance( double closeDistance)
+    {
+        this.closeDistance = closeDistance;
+    }
+
+    /**
+     * Checks if Pacman is close to the Ghost
+     * <notes>
+     *     Uses a adjustable distance to see if Pacman is close
+     * </notes>
+     * @return boolean true if Pacman is close , else returns false
+     */
+    protected final boolean isPacmanClose()
+    {
+
+        Pacman pacman = Ghost.getPacman();
+        return ghost.getPosition().distance(pacman.getPosition()) <= closeDistance ;
+
+    }
+
     /**
      * Abstract method that holds the Ghost's object's movement algorithm
      * @return
@@ -103,8 +134,6 @@ public abstract class GhostMovementStrategy {
                 return false;
             }
 
-            // TODO : Have the program send error messages to another component for each kind of unsuccessful result
-
             // Saves the Ghost's current position
             moveResult = savePreviousPosition();
 
@@ -114,11 +143,24 @@ public abstract class GhostMovementStrategy {
                 wallCollisionAction();
             }
 
+
             // Chooses the action when the Ghost hasn't collided with a wall
             else
             {
-                // Moves the Ghost using the implemented algorithm
-                moveResult &= movementAlgorithm();
+                // When Pacman is close try to get him
+                if( !( this instanceof  DirectlyToPacmanStrategy ) && isPacmanClose())
+                {
+                    ghost.setGhostMovementStrategy(new DirectlyToPacmanStrategy(ghost));
+                    ghost.attemptMove();
+                    ghost.setGhostMovementStrategy(this);
+                }
+
+                else
+                {
+                    // Moves the Ghost using the implemented algorithm
+                    moveResult &= movementAlgorithm();
+                }
+
             }
 
 
