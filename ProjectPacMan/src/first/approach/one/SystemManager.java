@@ -48,26 +48,21 @@ public class SystemManager
      */
     public SystemManager() {
 
-        // @Julian Conner - FOR THE REST OF THE TEAM
-        // Note : I colored each seperate Path a different color so its easier to see which Path code made which path
-        //        In the future I will make it the same color as the board & fix the wall proportions
-        List<Path> testPaths = Path.createTestPaths();
+
         Ghost blinky = new Ghost(new Position2D(400, 120, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
         Ghost pinky = new Ghost(new Position2D(780, 120, 40, 40), Color.PINK, true, Entity.Shape.RECTANGLE);
         Ghost inky = new Ghost(new Position2D(450, 250, 40, 40), Color.CYAN, true, Entity.Shape.RECTANGLE);
         Ghost clyde = new Ghost(new Position2D(730, 250, 40, 40), Color.ORANGE, true, Entity.Shape.RECTANGLE);
 
-
-        // @Julian Conner - FOR THE REST OF THE TEAM
-        // Note : If you want the ghost to stop moving so you can try out the new colored paths
-        //        comment out this next line of code
+        // Sets the Ghost's movement algorithm
         blinky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(blinky));
-        pinky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(pinky));
-        inky.setGhostMovementStrategy( new DirectlyToPacmanStrategy(inky));
+        pinky.setGhostMovementStrategy( new RandomMovement(pinky));
+        inky.setGhostMovementStrategy( new MatchKeyStroke(inky));
         clyde.setGhostMovementStrategy( new DirectlyToPacmanStrategy(clyde));
 
         // initializing the ArrayList "entities"...
         entities = new ArrayList<>();
+
         // ...and adding Wall objects to entities
         entities.add(new Wall(new Position2D(20, 20, 1150, 20)));
         entities.add(new Wall(new Position2D(20, 650, 1150, 20)));
@@ -107,6 +102,7 @@ public class SystemManager
         pc = new PlayerController(player);
         // run the game
         paused = false;
+
 
 
         entities.add(new Coin(new Position2D(100,100,20,20)));
@@ -219,6 +215,7 @@ public class SystemManager
                                     System.out.println("Wall : " + collision.getCollidedEntity());
                                     break;
                                 case "Ghost":
+                                    collision.getCollidedEntity().resetToPreviousPosition();
                                     System.out.println("GAME OVER");
                                     message = "GAME OVER";
                                     return;
@@ -243,6 +240,7 @@ public class SystemManager
                                 case "Wall":
                                     //todo this will just make it stop. We'll want to replace it with Ghost algs.
                                     collision.getSourceEntity().setPosition(collision.getPreviousPosition());
+                                    ((Ghost)collision.getSourceEntity()).setHitWall(true);
                                     break;
                                 default:
                                     if (VERBOSITY>0) System.out.println("Ghost collided with "
@@ -306,7 +304,7 @@ public class SystemManager
             //iterate through our entities to check for an Entity's hitbox overlapping w/ another entity's location
             Position2D sourceEntityPosition = sourceEntity.getPosition();
             for (Entity targetEntity : entities) {
-                if (sourceEntity != targetEntity && sourceEntity.canMove() && !(targetEntity instanceof Path)) {
+                if (sourceEntity != targetEntity && sourceEntity.canMove() ) {
                     Position2D targetEntityPosition = targetEntity.getPosition();
                     if (sourceEntityPosition.overlaps(targetEntityPosition)) {
                         collisionList.add(new Collision(sourceEntity, targetEntity));

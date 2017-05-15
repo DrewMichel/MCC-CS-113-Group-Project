@@ -12,6 +12,10 @@ public abstract class GhostMovementStrategy {
     private Position2D previousPosition ;
 
 
+    public GhostMovementStrategy( Ghost ghost)
+    {
+        this.ghost = ghost;
+    }
     /**
      * Sets whether the Ghost object can currently move
      * @param canCurrentlyMove if the Ghost object is currently moving

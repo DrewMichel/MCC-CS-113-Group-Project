@@ -13,7 +13,7 @@ public class DirectlyToPacmanStrategy extends GhostMovementStrategy {
      */
     public DirectlyToPacmanStrategy( Ghost ghost )
     {
-        this.ghost = ghost;
+        super(ghost);
     }
 
     /**

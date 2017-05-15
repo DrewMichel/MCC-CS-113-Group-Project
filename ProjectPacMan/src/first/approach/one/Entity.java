@@ -74,6 +74,15 @@ public abstract class Entity
         }
     }
 
+    /**
+     * Resets the Entity to the previous position
+     * @return
+     */
+    public boolean resetToPreviousPosition()
+    {
+        return setPosition( previousPosition);
+    }
+
     // get method "getPreviousPosition" to return the Position2D "previousPosition"
     public Position2D getPreviousPosition()
     {

@@ -17,8 +17,8 @@ public class MovementStrategyNullObject extends GhostMovementStrategy {
      */
     public MovementStrategyNullObject( Ghost ghost)
     {
-          this.ghost = ghost;
-          setHasMovement(false);
+           super(ghost);
+           setHasMovement(false);
     }
 
     /**

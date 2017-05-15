@@ -201,27 +201,7 @@ public class Position2D
     }
 
 
-    public Vertex firstIntersectionPoint( Vertex vector , Position2D compared)
-    {
-        Vertex intersectionPoint = null;
-        double heightHalved ;
-        double widthHalved ;
-        double lineSlope ;
 
-        if( !overlaps(compared))
-        {
-            return null;
-        }
-
-        else
-        {
-            heightHalved = height / 2.0;
-            widthHalved  = width / 2.0;
-            lineSlope = ( compared.height  / ( 1.0 * compared.width));
-
-            return intersectionPoint;
-        }
-    }
 
     /**
      * Checks if the Position2D hits the right border
@@ -287,6 +267,19 @@ public class Position2D
         return ( y1 >= y && y <= y + height ) && overlaps( otherPos);
     }
 
+    /**
+     * Calculates the distance between the two positions
+     * @param otherPos
+     * @return
+     */
+    public double distance( Position2D otherPos )
+    {
+
+        int[] position = smallestDistanceBetweenPositions( otherPos);
+        int xYSquared = position[0] * position[0] + position[1] * position[1] ;
+        return  Math.sqrt( xYSquared);
+
+    }
     /**
      * Finds the shortest distance between two positions
      * @param otherPosition
