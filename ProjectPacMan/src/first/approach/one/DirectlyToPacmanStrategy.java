@@ -9,7 +9,7 @@ public class DirectlyToPacmanStrategy extends GhostMovementStrategy {
 
     /**
      * Constructor for Ghost movement Strategy
-     * @param ghost
+     * @param ghost Ghost object that is assigned to instance variable ghost
      */
     public DirectlyToPacmanStrategy( Ghost ghost )
     {
@@ -18,6 +18,7 @@ public class DirectlyToPacmanStrategy extends GhostMovementStrategy {
 
     /**
      * Implements the algorithm for the Ghost to move directly to the Pacman Object
+     * @return true
      */
     @Override
     public boolean movementAlgorithm()

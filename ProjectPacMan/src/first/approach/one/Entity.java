@@ -37,14 +37,12 @@ public abstract class Entity
     private Direction dir;
 
     /**
-     * Default constructor for entity
+     *
+     * @param position Position2D object that is used to set this entity's world position
+     * @param color Color object that is used to draw this entity as that color
+     * @param canMove boolean that determines whether this entity can move or not
+     * @param shape Shape enum within the Entity class that is used to draw this entity's shape
      */
-    public Entity()
-    {
-
-    }
-
-
     // Constructor method "Entity" which takes in Position 2d "Position", Color "color", boolean "canMove", and Shape "shape"
     public Entity(Position2D position, Color color, boolean canMove, Shape shape)
     {
@@ -57,8 +55,8 @@ public abstract class Entity
 
     /**
      * Sets the previous position
-     * @param pos
-     * @return
+     * @param pos Position2D object that is used to previous position
+     * @return true if updated, else false
      */
     public boolean setPreviousPosition( Position2D pos)
     {
@@ -198,7 +196,12 @@ public abstract class Entity
         this.dir = dir;
         return true;
     }
-    
+
+    /**
+     *
+     * @param g Graphics object that is used to paint this entity
+     * @return true
+     */
     // paintEntity method
     public boolean paintEntity(Graphics g)
     {
