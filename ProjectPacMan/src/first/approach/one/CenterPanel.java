@@ -1,9 +1,9 @@
 package first.approach.one;
 
-import javafx.scene.text.*;
 
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
