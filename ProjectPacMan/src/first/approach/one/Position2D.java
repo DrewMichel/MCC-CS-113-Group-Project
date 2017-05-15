@@ -190,6 +190,93 @@ public class Position2D
         yPosition -= amount;
     }
 
+
+    public Vertex firstIntersectionPoint( Vertex vector , Position2D compared)
+    {
+        Vertex intersectionPoint = null;
+        double heightHalved ;
+        double widthHalved ;
+        double lineSlope ;
+
+        if( !overlaps(compared))
+        {
+            return null;
+        }
+
+        else
+        {
+            heightHalved = height / 2.0;
+            widthHalved  = width / 2.0;
+            lineSlope = ( compared.height  / ( 1.0 * compared.width));
+
+            return intersectionPoint;
+        }
+    }
+
+    /**
+     * Checks if the Position2D hits the right border
+     * @param otherPos
+     * @return
+     */
+    public boolean touchesRightBorder( Position2D otherPos)
+    {
+        int x2 = getXPosition() + getWidth();
+        int y1 = getYPosition();
+        int x = otherPos.getXPosition();
+        int width = otherPos.getWidth();
+
+
+        return ( x2 >= x && x2 <= x + width ) && overlaps( otherPos);
+    }
+
+    /**
+     * Checks if the Position2D hits the left border
+     * @param otherPos
+     * @return
+     */
+    public boolean touchesLeftBorder( Position2D otherPos)
+    {
+        int x1 = getXPosition();
+        int y1 = getYPosition();
+        int x = otherPos.getXPosition();
+        int width = otherPos.getWidth();
+
+
+        return ( x1 >= x && x1 <= x + width ) && overlaps( otherPos);
+    }
+
+    /**
+     * Checks if the Position2D hits the bottom border
+     * @param otherPos
+     * @return
+     */
+    public boolean touchesBottomBorder( Position2D otherPos)
+    {
+        int y2 = getYPosition() + getHeight();
+        int y1 = getYPosition();
+        int y = otherPos.getYPosition();
+        int height = otherPos.getHeight();
+
+
+        return ( y2 >= y && y2 <= y + height ) && overlaps( otherPos);
+    }
+
+    /**
+     * Checks if the Position2D hits the top border
+     * @param otherPos
+     * @return
+     */
+    public boolean touchesTopBorder( Position2D otherPos)
+    {
+        int y1 = getYPosition();
+        int x1 = getYPosition();
+        int y = otherPos.getYPosition();
+        int height = otherPos.getHeight();
+
+
+        return ( y1 >= y && y <= y + height ) && overlaps( otherPos);
+    }
+
     /**
      * Finds the shortest distance between two positions
      * @param otherPosition
@@ -255,6 +342,52 @@ public class Position2D
         }
     }
 
+
+    /**
+     * Checks if another Position2D's position coordinates overlap with this object
+     * @param otherPos
+     * @return boolean true if x and y coordinate overlaps with this object, else returns false
+     */
+    public boolean positionOverlaps( Position2D otherPos)
+    {
+        return overlaps( otherPos.getXPosition() ,otherPos.getYPosition());
+    }
+
+    /**
+     * Checks if a position overlaps with this Position2D
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return boolean true if the coordinate overlaps with this object , else returns false
+     */
+    public boolean overlaps( int x , int y )
+    {
+        int xStart = getXPosition();
+        int xEnd = getXPositionEnd();
+        int yStart = getYPosition();
+        int yEnd = getYPositionEnd();
+
+        return x >= xStart && x <= xEnd && y >= yStart && y <= yEnd ;
+
+    }
+
+    public boolean overlapsX( int x)
+    {
+        int xStart = getXPosition();
+        int xEnd = getXPositionEnd();
+        int yStart = getYPosition();
+        int yEnd = getYPositionEnd();
+
+        return x >= xStart && x <= xEnd;
+    }
+    public boolean overlapsY( int y )
+    {
+        int xStart = getXPosition();
+        int xEnd = getXPositionEnd();
+        int yStart = getYPosition();
+        int yEnd = getYPositionEnd();
+
+        return y >= yStart && y <= yEnd ;
+    }
     public boolean overlaps(Position2D otherPos) {
         boolean xStartOverlap = (getXPosition() >= otherPos.getXPosition() && getXPosition() <= otherPos.getXPositionEnd());
         boolean xMiddleOverlap = (getXPosition() <= otherPos.getXPosition() && getXPositionEnd() >= otherPos.getXPositionEnd());

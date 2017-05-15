@@ -33,7 +33,15 @@ public abstract class Entity
     private boolean canMove;
     private Shape shape;
     private Direction dir;
-    
+
+    /**
+     * Default constructor for entity
+     */
+    public Entity()
+    {
+
+    }
+
     public Entity(Position2D position, Color color, boolean canMove, Shape shape)
     {
         setPosition(position);

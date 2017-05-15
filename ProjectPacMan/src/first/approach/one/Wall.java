@@ -16,8 +16,41 @@ import java.awt.Color;
 
 public class Wall extends Entity
 {
+    private String side = "Unknown";
+    private Path path ;
 	public Wall(Position2D position, Color color, boolean canMove, Shape shape)
     {
     	super(position, color, canMove, shape);
+    }
+
+    public void setSide( String side)
+    {
+        this.side = side;
+    }
+
+    public void setPath( Path path)
+    {
+        this.path = path;
+    }
+
+    public Path getPath()
+    {
+        return path;
+    }
+
+    public String side()
+    {
+        return side;
+    }
+    @Override
+    public String toString()
+    {
+        String pathString = "None";
+
+        if( path != null )
+        {
+            pathString = path.toString();
+        }
+        return "Path : " + pathString + "\nSide : " + side + "\nPosition : " + getPosition();
     }
 }

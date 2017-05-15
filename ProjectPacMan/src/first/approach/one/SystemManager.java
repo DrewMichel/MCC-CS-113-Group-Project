@@ -46,22 +46,62 @@ public class SystemManager
         //        In the future I will make it the same color as the board & fix the wall proportions
         List<Path> testPaths = Path.createTestPaths();
         Ghost testGhost = new Ghost(new Position2D(800, 200, 40, 40), Color.RED, true, Entity.Shape.RECTANGLE);
+      //  Path testGraphPath = Graph.testCreatePath();
+        Path testGraphPathWide = Graph.testCreatePath( 3,4,7,9);
+       //testPaths.add( testGraphPath);
+       //testPaths.add( testGraphPathWide);
+        ArrayList<Path> maze = Path.createMazePaths(Color.BLACK);//rGraph.createPacmanMaze();
+        Path current;
+        Position2D test = Graph.testCreatePath(6 , 1 , 6 , 30).getPosition();
+
+        System.err.println( "Maze Size : " + maze.size());
+       // Path.addAllPathWallOpenings( maze );
+
+        /*
+        if( maze.size() > 1)
+        for(int i = 0 ; i <maze.size(); i++)
+        {
+           current = maze.get(i);
+           //current.clearPersonalOpenings();
+           ArrayList<Path> adjusted = new ArrayList<>(maze);
+           adjusted.remove(i);
+           //current.removeAllWalls();
+           //current.createAllWalls();
+           //maze.set(i , current);
+            System.err.println( "Maze Size : " + maze.size());
+
+            if( current.getPosition().equals(test))
+            {
+                System.out.println("Long Way :");
+                for( Wall wall : current.getWalls())
+                {
+                    System.out.println(wall);
+                }
+            }
 
 
+
+        }*/
+        testPaths.addAll( maze);
         // @Julian Conner - FOR THE REST OF THE TEAM
         // Note : If you want the ghost to stop moving so you can try out the new colored paths
         //        comment out this next line of code
         testGhost.setGhostMovementStrategy( new DirectlyToPacmanStrategy(testGhost));
 
         entities = new ArrayList<>();
-        entities.add(new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(20, 650, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(1150, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.add(new Wall(new Position2D(20, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
-        entities.addAll( Path.getAllPathEntities(testPaths));
+        //entities.add(new Wall(new Position2D(20, 20, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        //entities.add(new Wall(new Position2D(20, 650, 1150, 20), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        //entities.add(new Wall(new Position2D(1150, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        //entities.add(new Wall(new Position2D(20, 20, 20, 650), Color.BLUE, false, Entity.Shape.RECTANGLE));
+        ArrayList<Entity> allEntities = Path.getAllPathEntities(maze);
+        System.err.println( "All Entities Length : " +  allEntities.size());
+        entities.addAll( allEntities);
+        //entities.addAll(Path.getAllPathEntities(testPaths));
+        Graph.setPosition(testGhost.getPosition() , 11,17);
         entities.add( testGhost);
 
-        player = new Pacman(new Position2D(100,100,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
+        player = new Pacman(new Position2D(50, 50,50,50), Color.YELLOW, true, Entity.Shape.CIRCLE );
+        Graph.setPosition(player.getPosition(), 6, 16);
         entities.add(player);
         pc = new PlayerController(player);
         paused = false;
@@ -105,6 +145,7 @@ public class SystemManager
                             switch ( collidedEntityType ) {
                                 case "Wall":
                                     collision.getSourceEntity().setPosition(collision.getPreviousPosition());
+                                    System.out.println("Wall : " + collision.getCollidedEntity());
                                     break;
                                 case "Ghost":
                                     System.out.println("GAME OVER");
