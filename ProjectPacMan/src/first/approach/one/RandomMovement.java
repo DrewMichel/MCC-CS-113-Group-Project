@@ -7,6 +7,11 @@ import java.util.Random;
  */
 public class RandomMovement extends GhostMovementStrategy {
 
+    public static final double SWITCH_UP_TIME = 2 ;
+    private static Random random ;
+    private int yChange , xChange;
+    private long startTime ;
+
     /**
      * Constructor for Ghost random movement
      * @param ghost
@@ -14,7 +19,26 @@ public class RandomMovement extends GhostMovementStrategy {
     public RandomMovement( Ghost ghost)
     {
         super( ghost);
+        random = new Random( System.currentTimeMillis());
+        startTime = 0 ;
+
     }
+
+    /**
+     * Makes the ghost teleport when it hits a wall
+     */
+    @Override
+    protected void wallCollisionAction()
+    {
+        int newX , newY;
+
+        newX = random.nextInt( 1110) + 20;
+        newY = random.nextInt( 650) + 20;
+        ghost.attemptMove( newX , newY );
+        ghost.setHitWall(false);
+
+    }
+
     /**
      * Implementation of random movement algorithm for Ghost's movement
      *
@@ -23,20 +47,22 @@ public class RandomMovement extends GhostMovementStrategy {
     @Override
     public boolean movementAlgorithm() {
 
-        Random random = new Random(System.currentTimeMillis());
-
         int newX , newY , chance, mod;
+        int ghostX , ghostY ;
+        double secondsMoved;
 
-        // If the ghost hit a wall
-        if( ghost.hitWall() )
+        ghostX = ghost.getPosition().getXPosition();
+        ghostY = ghost.getPosition().getYPosition();
+
+        if ( startTime == 0 )
         {
-            newX = random.nextInt( 1110) + 20;
-            newY = random.nextInt( 650) + 20;
-            ghost.attemptMove( newX , newY );
-            ghost.setHitWall(false);
+            startTime = System.currentTimeMillis();
         }
 
-        else
+        secondsMoved = ( System.currentTimeMillis() - startTime ) /  1000.0 ;
+
+        // If time to switch up the Ghost's movement
+        if( secondsMoved > SWITCH_UP_TIME)
         {
             // Sets the random chance the Ghost will teleport
             chance = random.nextInt( 100001);
@@ -54,31 +80,57 @@ public class RandomMovement extends GhostMovementStrategy {
             // The Ghost moves randomly
             else
             {
-                if( chance % 8 == 0)
+
+                // If the Ghost moves laterally
+                if( chance % 2 == 0 )
                 {
-                    ghost.incrementX();
+
+                    chance = random.nextInt(1000);
+                    if( chance % 2 == 0)
+                    {
+                        xChange = 1;
+                    }
+
+                    else
+                    {
+                        xChange = -1;
+                    }
+
+                    yChange = 0;
                 }
 
+                // If the Ghost will move vertically
                 else
                 {
-                    ghost.decrementX();
+                    chance = random.nextInt(1000);
+                    if( chance % 2 == 0)
+                    {
+                        yChange = 1;
+                    }
+
+                    else
+                    {
+                        yChange = -1 ;
+                    }
+
+                    xChange = 0;
                 }
 
-                chance = random.nextInt(50);
 
-                if( chance % 3 == 0)
-                {
-                    ghost.incrementY();
-                }
-
-                else
-                {
-                    ghost.decrementY();
-                }
             }
+
+            // Resets motion time
+            startTime = System.currentTimeMillis();
         }
 
-        // TODO : Decide whether to move to random points on the Graph or random directions from current position
+        // Moves the Ghost
+        newX = ghostX + xChange;
+        newY = ghostY + yChange;
+
+        ghost.attemptMove( newX , newY);
+
+
+
         return false;
     }
 }

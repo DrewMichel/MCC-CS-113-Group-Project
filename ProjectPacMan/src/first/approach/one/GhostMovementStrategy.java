@@ -54,6 +54,20 @@ public abstract class GhostMovementStrategy {
     }
 
     /**
+     * Sets the action taken when a Ghost hits a wall
+     * <Pre-Conditions>
+     *     By default it performs the same movement algorithm.
+     *     It has to be overriden to do specific tasks.
+     *     When overriden if then change the hit wall
+     *     boolean acoordingly during te implementation
+     * </Pre-Conditions>
+     */
+    protected void wallCollisionAction()
+    {
+        movementAlgorithm();
+    }
+
+    /**
      * Sets the Ghost's previous position to the one before the movement algorithm started
      * <Pre-Conditions>
      *     The Ghost instance variable isn't null.
@@ -94,8 +108,19 @@ public abstract class GhostMovementStrategy {
             // Saves the Ghost's current position
             moveResult = savePreviousPosition();
 
-            // Moves the Ghost using the implemented algorithm
-            moveResult &= movementAlgorithm();
+            // Chooses the action when the ghost hits the wall
+            if( ghost.hitWall() )
+            {
+                wallCollisionAction();
+            }
+
+            // Chooses the action when the Ghost hasn't collided with a wall
+            else
+            {
+                // Moves the Ghost using the implemented algorithm
+                moveResult &= movementAlgorithm();
+            }
+
 
             // Sets the Ghost's previous position to the saved start position
             moveResult &= setGhostPreviousPosition();
